@@ -1,0 +1,145 @@
+[
+  {
+    "id": 1,
+    "name": "Goku",
+    "image": "https://i.pinimg.com/originals/fa/b1/e5/fab1e51838fd6874bcd448f0325e1772.png",
+    "occupation": "",
+    "location": "",
+    "count":0
+  },
+  {
+    "id": 2,
+    "name": "Creeper",
+    "image": "https://ui-ex.com/images/creeper-transparent-2.png",
+    "occupation": "",
+    "location": "",
+    "count":0
+  },
+  {
+    "id": 3,
+    "name": "Broly",
+    "image": "https://i.pinimg.com/originals/79/c0/b7/79c0b70ae1d00dc535337731a415682f.png",
+    "occupation": "",
+    "location": "",
+    "count":0
+  },
+  {
+    "id": 4,
+    "name": "Yoda",
+    "image": "http://i.imgur.com/bvTB1Ht.png",
+    "occupation": "Jedi Master",
+    "location": "Space",
+    "count":0
+  },
+  {
+    "id": 5,
+    "name": "Vegeta",
+    "image": "https://i.ya-webdesign.com/images/vegeta-blue-png-1.png",
+    "occupation": "Fighter",
+    "location": "Earth",
+    "count":0
+  },
+  {
+    "id": 6,
+    "name": "Gandalf",
+    "image": "https://i.dlpng.com/static/png/105618_preview.png",
+    "occupation": "Wisard",
+    "location": "Middle Earth",
+    "count":0
+  },
+  {
+    "id": 7,
+    "name": "Master Chief",
+    "image": "https://wiki.halo.fr/images/thumb/3/31/H3-John-117_accroupi_%28render%29.png/250px-H3-John-117_accroupi_%28render%29.png",
+    "occupation": "Soldier",
+    "location": "Earth",
+    "count":0
+  },
+  {
+    "id": 8,
+    "name": "hulk",
+    "image": "https://yokoent.com/images/hulk-png-cartoon-12.png",
+    "occupation": "Monster",
+    "location": "Earth",
+    "count":0
+    
+  },
+  {
+    "id": 9,
+    "name": "SuperMan",
+    "image": "https://purepng.com/public/uploads/large/purepng.com-supermansupermanfictional-superherocomic-booksdc-comicscharacterjerry-siegelson-of-kryptonaction-comicsman-of-steel-1701528657920z5yyt.png",
+    "occupation": "SuperMan",
+    "location": "Earth",
+    "count":0
+  },
+  {
+    "id": 10,
+    "name": "Saitama",
+    "image": "http://www.pngmart.com/files/5/One-Punch-PNG-Picture.png",
+    "occupation": "Hero",
+    "location": "",
+    "count":0
+  },
+  {
+    "id": 11,
+    "name": "Batman",
+    "image":"https://vignette.wikia.nocookie.net/batman/images/9/92/Batman-ArkhamKnight-BatsuitRender.png/revision/latest?cb=20140605151444",
+    "occupation": "Batman",
+    "location": "Gothom",
+    "count":0
+  },
+  {
+    "id": 12,
+    "name": "Jien",
+    "image": "https://vignette.wikia.nocookie.net/dragonballfighterz/images/1/1e/Jiren_Artwork.png/revision/latest?cb=20190131101001",
+    "occupation": "Hero",
+    "location": "Universe 6",
+    "count":0
+  },
+  {
+    "id": 13,
+    "name": "Freeza",
+    "image":
+      "https://ui-ex.com/images/goku-transparent-golden-frieza-2.png",
+    "occupation": "Villan",
+    "location": "space",
+    "count":0
+  },
+  {
+    "id": 14,
+    "name": "Piccolo",
+    "image":
+      "https://vignette.wikia.nocookie.net/dragon-ball-rpg-d20/images/9/93/Piccolo_1_by_aubreiprince-dbadhfh.png/revision/latest?cb=20180319192850",
+    "occupation": "guardian",
+    "location": "Earth",
+    "count":0
+  },
+  {
+    "id": 15,
+    "name": "Guko",
+    "image":
+      "https://static.comicvine.com/uploads/original/11112/111122896/4881322-goku_ssj_3____dragon_ball_super_by_esteban_93-d92vok0.png",
+    "occupation": "fighter",
+    "location": "earth",
+    "count":0
+  },
+  {
+    "id": 16,
+    "name": "Beerus",
+    "image":
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5992a2d8-1c89-4248-80e7-9ec4f59767bb/dbah7vj-7271cd42-e597-4960-aa07-f757dc5b7545.png/v1/fill/w_830,h_963,strp/beerus_the_destroyer___god_of_destruction_by_ameyfire_dbah7vj-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjUwMCIsInBhdGgiOiJcL2ZcLzU5OTJhMmQ4LTFjODktNDI0OC04MGU3LTllYzRmNTk3NjdiYlwvZGJhaDd2ai03MjcxY2Q0Mi1lNTk3LTQ5NjAtYWEwNy1mNzU3ZGM1Yjc1NDUucG5nIiwid2lkdGgiOiI8PTIxNTMifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.nSk9yUBXYuvcxdbcyrTDnVnVm_dta-FY5N30kwnLZoQ",
+    "occupation": "god",
+    "location": "space",
+    "count":0
+  },
+  {
+    "id": 17,
+    "name": "SpiderMan",
+    "image":
+    "https://ya-webdesign.com/transparent450_/transparent-comic-hero.png",
+    "occupation": "god",
+    "location": "space",
+    "count":0
+  }
+]
+
