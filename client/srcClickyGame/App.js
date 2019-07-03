@@ -16,7 +16,8 @@ class App extends Component {
     topscore: topscore,
     guessmessage: guessmessage
   };
-  youloose = () => {
+  
+  youloose = () => { 
     if (this.state.score > this.state.topscore) {
       this.setState({ topscore: this.state.score });
     }
