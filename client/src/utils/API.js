@@ -10,6 +10,6 @@ export default {
   },
 
   savestock: function(booksData) {
-    return axios.post("/api/books", booksData);
+    return axios.post("/api/stocks", booksData);
   }
 };
