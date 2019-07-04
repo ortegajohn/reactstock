@@ -52,6 +52,7 @@ class App extends Component {
     event.preventDefault();
     console.log("Clicked Submit")
     this.searchTicker(this.state.ticker);
+    
 
     var test = {
       ticker: this.state.ticker,
@@ -62,17 +63,19 @@ class App extends Component {
       // console.log("res.data.data[0].price: ", res.data.data[0].price)
       // console.log("this.state.price: ", this.state.price)
       // this.setState({ price: res.data.data[0].price })
-
+      
     });
 
-
+    event.value = "";
     // db.Stocks.create(test).then(function (dbStocks) {
     //   console.log("dbStocks: ", dbStocks)
     // });
 
   };
 
-
+//   sendThru(event) {
+//     event.value = "";    
+// }
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
@@ -80,6 +83,7 @@ class App extends Component {
       <Wrapper >
         <Nav></Nav>
         <SearchBar
+        // value={""}
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
         />
