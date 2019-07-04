@@ -7,5 +7,9 @@ const APIKEY = "&api_token=NwKKaeNpI8lA9hVpjtqqdvqYWWqHf7EMegaRidS6DdgdwVja8b67O
 export default {
   search: function(ticker) {
     return axios.get(BASEURL + ticker + APIKEY);
+  },
+
+  savestock: function(booksData) {
+    return axios.post("/api/books", booksData);
   }
 };

@@ -33,5 +33,13 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  savebook: function(req, res) {
+    // console.log("Object.keys(req): ", Object.keys(req));
+    console.log("req.body: ", req.body);
+    db.Stocks.create(req.body).then(function (dbStocks) {
+      
+      // console.log("dbStocks: ", dbStocks)
+    });
   }
 };
