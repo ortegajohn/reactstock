@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FriendCard from "./components/FriendCard";
+import Test from "./components/Test";
 import Wrapper from "./components/Wrapper";
 // import Title from "./components/Title";
 import Nav from "./components/Nav";
@@ -17,6 +18,7 @@ let price = 0;
 let stocksInfo = {}
 let stock_ticker = {}
 let search_ticker = ""
+let stocksInfo_keys = []
 let guessmessage = 'Click an image to begin!'
 class App extends Component {
   // Setting this.state.friends to the friends json array
@@ -29,7 +31,8 @@ class App extends Component {
     ticker: ticker,
     price: price,
     stocksInfo: stocksInfo,
-    search_ticker:search_ticker
+    search_ticker: search_ticker,
+    stocksInfo_keys:stocksInfo_keys
   };
 
   handleInputChange = event => {
@@ -42,25 +45,37 @@ class App extends Component {
     console.log("searchTicker")
     API.search(query)
       .then((res) => {
-        console.log("res.data.data[0].price: ", res.data.data[0].price)
-        console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
-        console.log("res.data.data[0].name: ", res.data.data[0].name)
-        console.log("res.data.data[0].change_pct: ", res.data.data[0].change_pct)
-        console.log("res.data.data[0].volume_avg: ", res.data.data[0].volume_avg)
-        console.log("res.data.data[0].symbol: ", res.data.data[0].symbol)
+        // console.log("res.data.data[0].price: ", res.data.data[0].price)
+        // console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        // console.log("res.data.data[0].name: ", res.data.data[0].name)
+        // console.log("res.data.data[0].change_pct: ", res.data.data[0].change_pct)
+        // console.log("res.data.data[0].volume_avg: ", res.data.data[0].volume_avg)
+        // console.log("res.data.data[0].symbol: ", res.data.data[0].symbol)
         // stock_ticker = {[res.data.data[0].symbol]:res.data.data[0]}
         stock_ticker[res.data.data[0].symbol] = res.data.data[0]
-        console.log("stock_ticker: ", stock_ticker)
+        // console.log("stock_ticker: ", stock_ticker)
         this.setState({ price: res.data.data[0].price })
-        this.setState({ stocksInfo: stock_ticker })
-        console.log("this.state.stocksInfo: ", this.state.stocksInfo)
-        let x = Object.keys(res.data.data[0])
-        console.log("this.state.stocksInfo.length: ", x.length)
-        console.log("x: ", x)
+        this.setState({ stocksInfo: stock_ticker }, () => {
+          stocksInfo_keys = Object.keys(this.state.stocksInfo)
+          this.setState({stocksInfo_keys: stocksInfo_keys}, () => {
+            console.log("stocksInfo_keys: ",stocksInfo_keys)
+          });
+        })
+        // console.log("this.state.stocksInfo: ", this.state.stocksInfo)
+        // let x = Object.keys(res.data.data[0])
+        // console.log("this.state.stocksInfo.length: ", x.length)
+        // console.log("x: ", x)
 
         var test = {
           ticker: this.state.ticker,
-          price: res.data.data[0].price
+          price: res.data.data[0].price,
+          name: res.data.data[0].name,
+          open: res.data.data[0].price_open,
+          percentChange: res.data.data[0].change_pct,
+          dayHigh: res.data.data[0].day_high,
+          dayLow: res.data.data[0].day_low,
+          marketCap: res.data.data[0].market_cap,
+          avgVol:res.data.data[0].volume_avg
         }
 
         API.savestock(test).then((res) => {
@@ -83,7 +98,7 @@ class App extends Component {
     event.preventDefault();
     console.log("Clicked Submit")
     // https://stackoverflow.com/questions/30782948/why-calling-react-setstate-method-doesnt-mutate-the-state-immediately
-    this.setState({ search_ticker: this.state.ticker}, () =>{
+    this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
     })
 
@@ -105,7 +120,6 @@ class App extends Component {
       <Wrapper >
         <Nav></Nav>
         <SearchBar
-
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
         />
@@ -115,19 +129,6 @@ class App extends Component {
           price={this.state.price}
           stocksInfo={this.state.stocksInfo}
         />
-
-
-        {/* <Title>
-          <div>Clicky Game</div>
-            <div> {this.state.guessmessage}</div>
-            <div>Score: {this.state.score} | Top Score:{this.state.topscore} </div> */}
-
-        {/* <ul>Clicky Game</ul>            
-            <ul> {this.state.guessmessage}</ul>
-            <ul>Score: {this.state.score} | Top Score:{this.state.topscore} </ul> */}
-        {/* </Title> */}
-
-
 
 
         {this.state.friends.map(friend => (
@@ -140,6 +141,19 @@ class App extends Component {
           />
 
         ))}
+
+        <div>
+        {
+        
+          this.state.stocksInfo_keys.map(ticker => (
+          <Test
+          ticker={this.state.stocksInfo[ticker]}
+          />
+
+        ))}
+
+
+        </div>
 
 
       </Wrapper>

@@ -6,16 +6,18 @@ import "./style.css";
 
 let getkeys = (ticker, obj) => {
     let a = Object.keys(obj)
-    let b
+    let avg_vol
+    let name
     console.log("ZZZZZZticker: ", ticker)
     console.log("ZZZZZZ: ", Object.keys(obj))
     if (ticker !== undefined) {
         if (a.length > 0) {
-            a.forEach(function(element){
-                console.log("MMM",element)
-                if(element.toUpperCase() === ticker.toUpperCase()){
+            a.forEach(function (element) {
+                console.log("MMM", element)
+                if (element.toUpperCase() === ticker.toUpperCase()) {
                     console.log("YYYYYY: ", obj[ticker.toUpperCase()].volume_avg)
-                    b = obj[ticker.toUpperCase()].volume_avg
+                    avg_vol = obj[ticker.toUpperCase()].volume_avg
+                    name = obj[ticker.toUpperCase()].name
                 }
             })
 
@@ -28,7 +30,12 @@ let getkeys = (ticker, obj) => {
         }
     }
 
-    return b
+    return (
+        <div>
+            <div>{avg_vol}</div>
+            <div>{name}</div>
+        </div>
+    )
 }
 
 const StockTable = props => {
