@@ -7,7 +7,7 @@ CREATE TABLE `stocks` (
 	`id` Int( 11 ) AUTO_INCREMENT NOT NULL,
 	`user_id`  long,
 	`ticker` VARCHAR( 255) NOT NULL,
-	`name` VARCHAR ( 30 )
+	`name` VARCHAR ( 255 ),
 	`price` long,
 	`open` long,
 	`percentChange` long,
