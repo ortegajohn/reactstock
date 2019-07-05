@@ -37,8 +37,10 @@ module.exports = {
   savebook: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     console.log("req.body: ", req.body);
-    db.Stocks.create(req.body).then(function (dbStocks) {
-      
+    db.Stocks.create(req.body).then(function (dbStocks,err) {
+      if(err){
+        console.log("err: ", err)
+      }
       // console.log("dbStocks: ", dbStocks)
     });
   }
