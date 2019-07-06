@@ -79,7 +79,7 @@ class App extends Component {
           marketCap: res.data.data[0].market_cap,
           avgVol: res.data.data[0].volume_avg
         }
-
+        
         API.savestock(test).then((res) => {
           console.log("res: ", res)
           // console.log("res.data.data[0].price: ", res.data.data[0].price)
@@ -130,21 +130,23 @@ class App extends Component {
   render() {
     return (
       <Wrapper >
+        <div>
         <Nav></Nav>
-        <SearchBar
+         <SearchBar
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
           getdbstockdata={this.getdbstockdata}
         />
-
+        </div>
+         
         <StockTable
           search_ticker={this.state.search_ticker}
           price={this.state.price}
           stocksInfo={this.state.stocksInfo}
         />
 
-        {/* 
-        {this.state.friends.map(friend => (
+        
+        {/* {this.state.friends.map(friend => (
           <FriendCard
             handleIncrement={this.handleIncrement}
             id={friend.id}
@@ -153,8 +155,8 @@ class App extends Component {
             image={friend.image}
           />
 
-        ))} */}
-
+        ))}  */}
+ 
         <div>
           {this.state.stocksInfo_keys.map(ticker => (
             <Test
