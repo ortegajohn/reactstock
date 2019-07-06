@@ -160,21 +160,16 @@ class App extends Component {
             <Test
               ticker={this.state.stocksInfo[ticker]}
             />
-
           ))}
+
 
           <div>
             {this.state.dbstocks.map(data => (
               <DBdata
-                data={data}
-                
+                data={data}                
               />
-
             ))}
-
           </div>
-
-
 
         </div>
 

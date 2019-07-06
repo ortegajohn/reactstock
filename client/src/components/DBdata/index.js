@@ -5,7 +5,6 @@ function DBdata(props) {
   return (
     <div>
         DBdata: {props.data.ticker}
-
     </div>
   );
 }
