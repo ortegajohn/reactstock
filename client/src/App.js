@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import FriendCard from "./components/FriendCard";
+// import FriendCard from "./components/FriendCard";
 import Test from "./components/Test";
+import DBdata from "./components/DBdata";
 import Wrapper from "./components/Wrapper";
 // import Title from "./components/Title";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
-import friends from "./friends.json";
+// import friends from "./friends.json";
 import API from "./utils/API";
 
 
@@ -19,12 +20,12 @@ let stocksInfo = {}
 let stock_ticker = {}
 let search_ticker = ""
 let stocksInfo_keys = []
+let dbstocks = []
 let guessmessage = 'Click an image to begin!'
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
   state = {
-    friends: friends,
     score: score,
     topscore: topscore,
     guessmessage: guessmessage,
@@ -32,7 +33,8 @@ class App extends Component {
     price: price,
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
-    stocksInfo_keys:stocksInfo_keys
+    stocksInfo_keys: stocksInfo_keys,
+    dbstocks: dbstocks
   };
 
   handleInputChange = event => {
@@ -57,8 +59,8 @@ class App extends Component {
         this.setState({ price: res.data.data[0].price })
         this.setState({ stocksInfo: stock_ticker }, () => {
           stocksInfo_keys = Object.keys(this.state.stocksInfo)
-          this.setState({stocksInfo_keys: stocksInfo_keys}, () => {
-            console.log("stocksInfo_keys: ",stocksInfo_keys)
+          this.setState({ stocksInfo_keys: stocksInfo_keys }, () => {
+            console.log("stocksInfo_keys: ", stocksInfo_keys)
           });
         })
         // console.log("this.state.stocksInfo: ", this.state.stocksInfo)
@@ -75,7 +77,7 @@ class App extends Component {
           dayHigh: res.data.data[0].day_high,
           dayLow: res.data.data[0].day_low,
           marketCap: res.data.data[0].market_cap,
-          avgVol:res.data.data[0].volume_avg
+          avgVol: res.data.data[0].volume_avg
         }
 
         API.savestock(test).then((res) => {
@@ -92,6 +94,16 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  getdbstockdata = event => {
+    event.preventDefault();
+    API.getstocks().then((res) => {
+      console.log("res.data: ", res.data)
+      this.setState({ dbstocks: res.data })
+
+    });
+
+
+  }
 
 
   handleFormSubmit = event => {
@@ -122,6 +134,7 @@ class App extends Component {
         <SearchBar
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
+          getdbstockdata={this.getdbstockdata}
         />
 
         <StockTable
@@ -130,7 +143,7 @@ class App extends Component {
           stocksInfo={this.state.stocksInfo}
         />
 
-
+        {/* 
         {this.state.friends.map(friend => (
           <FriendCard
             handleIncrement={this.handleIncrement}
@@ -140,20 +153,33 @@ class App extends Component {
             image={friend.image}
           />
 
-        ))}
+        ))} */}
 
         <div>
-        {
-        
-          this.state.stocksInfo_keys.map(ticker => (
-          <Test
-          ticker={this.state.stocksInfo[ticker]}
-          />
+          {this.state.stocksInfo_keys.map(ticker => (
+            <Test
+              ticker={this.state.stocksInfo[ticker]}
+            />
 
-        ))}
+          ))}
+
+          <div>
+            {this.state.dbstocks.map(data => (
+              <DBdata
+                data={data}
+                
+              />
+
+            ))}
+
+          </div>
+
 
 
         </div>
+
+
+
 
 
       </Wrapper>

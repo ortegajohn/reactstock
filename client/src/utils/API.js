@@ -11,5 +11,11 @@ export default {
 
   savestock: function(booksData) {
     return axios.post("/api/stocks", booksData);
+  },
+
+  getstocks: function(req, res) {
+    console.log("API.getstocks req",req)
+    console.log("API.getstocks res",res)
+    return axios.get("/api/getstocks", res);
   }
 };
