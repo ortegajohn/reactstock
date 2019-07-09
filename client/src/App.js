@@ -9,6 +9,9 @@ import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
 import API from "./utils/API";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+
 
 
 // var db = require("../../models");
@@ -131,12 +134,14 @@ class App extends Component {
     return (
       <Wrapper >
         <Nav></Nav>
+        <SignUp></SignUp>
+        <SignIn></SignIn>
         <SearchBar
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
           getdbstockdata={this.getdbstockdata}
         />
-
+    
         <StockTable
           search_ticker={this.state.search_ticker}
           price={this.state.price}

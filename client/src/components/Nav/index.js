@@ -1,5 +1,7 @@
 import React from "react";
 import "./style.css";
+import "../SignIn";
+import "../SignUp";
 
 function Nav(props) {
     return (  <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +17,7 @@ function Nav(props) {
                     <a href="/logout" className="nav-link">Logout</a>
                 </li>
                 <li className="nav-item">
-                    <a href="/signin" className="nav-link">Sign In</a>
+                    <a href="/signIn" className="nav-link">Sign In</a>
                 </li>
                 <li className="nav-item">
                     <a href="/signup" className="nav-link">Sign Up</a>
@@ -27,7 +29,6 @@ function Nav(props) {
     
     )
   }
-  
   
   export default Nav;
   
