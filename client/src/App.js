@@ -7,13 +7,9 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
-// import friends from "./friends.json";
+import Modal from "./components/Modal/Modal"
 import API from "./utils/API";
 
-
-// var db = require("../../models");
-let score = 0;
-let topscore = 0;
 let ticker = "";
 let price = 0;
 let stocksInfo = {}
@@ -26,8 +22,7 @@ class App extends Component {
   // Setting this.state.friends to the friends json array
 
   state = {
-    score: score,
-    topscore: topscore,
+    showModal: false,
     guessmessage: guessmessage,
     ticker: ticker,
     price: price,
@@ -37,10 +32,15 @@ class App extends Component {
     dbstocks: dbstocks
   };
 
+  // START MODAL CODE
+  // Modal Show and Close functions:
+  handleShowMessageClick = (idx) => this.setState({showModal: true, clickedIndex: idx})
+  handleCloseModal = () => this.setState({showModal: false})
+  // END MODAL CODE
+
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
     console.log("event.target.value: ", event.target.value)
-
   };
 
   searchTicker = query => {
@@ -166,13 +166,22 @@ class App extends Component {
           ))}
 
           <div>
-            {this.state.dbstocks.map(data => (
+            {this.state.dbstocks.map((data,idx) => (
               <DBdata
                 data={data}
-                
+                handleShowMessageClick={() => this.handleShowMessageClick(idx)}
               />
 
             ))}
+
+            {this.state.showModal ? (
+              <Modal
+              onClose={this.handleCloseModal}
+              >
+                  Stock Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}
+                  Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}
+              </Modal>
+          ) : null}
 
           </div>
 

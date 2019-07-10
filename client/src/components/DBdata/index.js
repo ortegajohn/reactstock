@@ -1,12 +1,14 @@
 import React from "react";
 import "./style.css";
+import DBdataBtn from "../DBdataBtn/DBdataBtn"
 
 function DBdata(props) {
   return (
-    <div>
-        DBdata: {props.data.ticker}
-
-    </div>
+    <DBdataBtn 
+          data={props.data} 
+          handleShowMessageClick={props.handleShowMessageClick}
+          >
+    </DBdataBtn>
   );
 }
 
