@@ -2,7 +2,7 @@ const express = require('express');
 const expressRouter = express.Router();
 
 
-const { isNotLoggedIn } = require('../../config/helper_auth');
+const { isNotLoggedIn } = require('../config/helper_auth');
 
 const passport = require('passport');
 

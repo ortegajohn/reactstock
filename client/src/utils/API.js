@@ -17,10 +17,11 @@ export default {
     console.log("API.getstocks req",req)
     console.log("API.getstocks res",res)
     return axios.get("/api/getstocks", res);
-  }, 
-  routes: function(req, res) {
-    console.log("API.getauth req", req);
-    console.log("API.getauth res", res)
+  },
+   
+  authentication: function(req, res) {
+    console.log("API.authentication req", req)
+    console.log("API.authentication res", res)
     return axios.get("/api/authentication", res);
   }
 };

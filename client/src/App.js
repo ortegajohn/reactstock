@@ -107,6 +107,13 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  handleFormSubmit = onsubmit => {
+    onsubmit.preventDefault();
+    API.authentication(test).then((res) => {
+      
+    })
+  }
+
   getdbstockdata = event => {
     event.preventDefault();
     API.getstocks().then((res) => {

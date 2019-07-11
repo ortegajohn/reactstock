@@ -1,5 +1,5 @@
 import React from 'react';
-import route from {routes}, '../../utils/API'
+import  authentication  from '../../utils/API'
 
 
 //     }
@@ -22,7 +22,7 @@ class UserSignUp extends React.Component {
         const input = form.elements[name];
       }
       
-      fetch({route}, {
+      fetch({authentication}, {
         method: 'POST',
         body: data,
       });
