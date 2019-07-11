@@ -1,6 +1,7 @@
 const express = require('express');
 const expressRouter = express.Router();
-const ReactDOM = require('react-dom');
+
+
 const { isNotLoggedIn } = require('../config/helper_auth');
 
 const passport = require('passport');
@@ -10,14 +11,13 @@ expressRouter.get('/signup', isNotLoggedIn, (req, res) => {
 });
 
 expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup', {
-    successRedirect: ReactDOM.render("A", document.getElementById("root")),
+    successRedirect: '../client/components/index',
     failureRedirect: '/signup',
     failureFlash: true
 }));
 
 expressRouter.get('/signin', isNotLoggedIn, (req, res) => {
-    ReactDOM.render("A", document.getElementById("root"));
-    //res.render('auth/signin');
+    res.render('auth/signin');
 });
 
 expressRouter.post('/signin', isNotLoggedIn, passport.authenticate('local.signin', {

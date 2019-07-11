@@ -3,7 +3,10 @@ const express = require("express");
 const routes = require("./routes");
 var db = require("./models");
 const app = express();
-
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
+app.use(require('./routes'));
+app.use(require('./routes/authentication'));
 const morgan = require('morgan');
 const path = require('path');
 const flash = require('connect-flash');

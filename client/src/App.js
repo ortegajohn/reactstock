@@ -25,6 +25,12 @@ let search_ticker = ""
 let stocksInfo_keys = []
 let dbstocks = []
 let guessmessage = 'Click an image to begin!'
+
+let signupformfirstname = ""
+let signupformlastname = ""
+let signupformusername = ""
+let signupformpassword = ""
+
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
@@ -37,7 +43,11 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
-    dbstocks: dbstocks
+    dbstocks: dbstocks,
+    signupformfirstname,
+    signupformlastname,
+    signupformusername,
+    signupformpassword
   };
 
   handleInputChange = event => {
