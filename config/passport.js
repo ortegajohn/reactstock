@@ -6,7 +6,7 @@ const {
     encryptPassword,
     matchPassword
 } = require('../config/helper_pass');
-
+console.log("GOTHERE1")
 passport.use('local.signin', new LocalStrategy({
 
     usernameField: 'username',
@@ -14,7 +14,8 @@ passport.use('local.signin', new LocalStrategy({
     passReqToCallback: true
 
 }, async (req, username, password, done) => {
-
+    
+    console.log("GOTHERE2")
     const rows = await database.query("SELECT * FROM iStock_users WHERE username = ?", [username]);
 
     if (rows.length > 0) {

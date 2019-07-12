@@ -26,9 +26,14 @@ router
   // .put(booksController.update)
   // .delete(booksController.remove);
   .post(isNotLoggedIn, passport.authenticate('local.signup', {
-    successRedirect: () =>{console.log("ZAZAZAZA")},
-    failureRedirect: () =>{console.log("wqwwqwqwqwq")}
+    successRedirect: "/success",
+    failureRedirect: "/failue"
     // failureFlash: true
 }))
+// .post(passport.authenticate('local.signup', {
+//   successRedirect: "/success",
+//   failureRedirect: "/failue"
+//   // failureFlash: true
+// }))
 
 module.exports = router;

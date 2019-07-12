@@ -15,6 +15,29 @@ const colors = require('colors');
 const PORT = process.env.PORT || 3001;
 //////////////////////////////////////////
 require('./config/passport');
+const {
+  keys
+} = require('./db/database_keys');
+
+/* Middlewares */
+app.use(express_session({
+
+  secret: 'random_secrete_string',
+  resave: false,
+  saveUninitialized: false,
+  store: new mysqlstore(keys)
+
+}));
+
+app.use(flash());
+
+app.use(morgan('dev'));
+
+app.use(express.urlencoded({
+  extended: false
+}));
+
+
 app.use(passport.initialize());
 
 app.use(passport.session());
