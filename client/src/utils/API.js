@@ -17,5 +17,10 @@ export default {
     console.log("API.getstocks req",req)
     console.log("API.getstocks res",res)
     return axios.get("/api/getstocks", res);
+  },
+
+  sendSignUpForm: function(SignUpFormData){
+    console.log("API.sendSignUpForm SignUpFormData",SignUpFormData)
+    return axios.post("/api/signup", SignUpFormData);
   }
 };
