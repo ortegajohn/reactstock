@@ -20,15 +20,15 @@ const { isNotLoggedIn } = require('../../config/helper_auth');
 
 router
   .route("/")
-  .post(isNotLoggedIn);
+  // .post(isNotLoggedIn);
   // .post(booksController.signup);
   // .get(booksController.findById)
   // .put(booksController.update)
   // .delete(booksController.remove);
-//   .post(function (){booksController.signup(), isNotLoggedIn}, passport.authenticate('local.signup', {
-//     successRedirect: '../client/components/index',
-//     failureRedirect: '/signup',
-//     failureFlash: true
-// }))
+  .post(isNotLoggedIn, passport.authenticate('local.signup', {
+    successRedirect: () =>{console.log("ZAZAZAZA")},
+    failureRedirect: () =>{console.log("wqwwqwqwqwq")},
+    failureFlash: true
+}))
 
 module.exports = router;
