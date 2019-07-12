@@ -14,7 +14,10 @@ const colors = require('colors');
 
 const PORT = process.env.PORT || 3001;
 //////////////////////////////////////////
+require('./config/passport');
+app.use(passport.initialize());
 
+app.use(passport.session());
 //////////////////////////////////////////
 
 
