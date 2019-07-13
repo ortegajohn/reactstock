@@ -16,34 +16,35 @@ class Nav extends Component {
     }
     // function Nav(props) {
     clicksignOUT = () => {
-        if(!this.state.isloggedin){
-            this.setState({isloggedin: true}, () =>{
-                console.log("this.state.isloggedin: ",this.state.isloggedin)
-              })
-        }else{
-            this.setState({isloggedin: false}, () =>{
-                console.log("this.state.isloggedin: ",this.state.isloggedin)
-              })
+        if (!this.state.isloggedin) {
+            this.setState({ isloggedin: true }, () => {
+                console.log("this.state.isloggedin: ", this.state.isloggedin)
+            })
+        } else {
+            this.setState({ isloggedin: false }, () => {
+                console.log("this.state.isloggedin: ", this.state.isloggedin)
+            })
         }
     }
     render() {
         if (!this.state.isloggedin) {
             logoutslashsignin =
-                <div>
-                    <li className="nav-item">
+                <div >
+                    <li className="nav-item" onClick={this.clicksignOUT}>
                         {/* <a href="/signin" className="nav-link">Sign In</a> */}
                         <a href="#" className="nav-link" onClick={this.props.clicksignIN}>Sign In</a>
                     </li>
-                    <li className="nav-item">
-                        {/* <a href="/signin" className="nav-link">Sign In</a> */}
-                        <a href="#" className="nav-link" onClick={this.clicksignOUT}>Sign Out</a>
-                    </li>
+                    {/* <li className="nav-item"> */}
+                    {/* <a href="/signin" className="nav-link">Sign In</a> */}
+                    {/* <a href="#" className="nav-link" >Sign Out</a> */}
+                    {/* </li> */}
                 </div>
         } else {
-            logoutslashsignin = <li className="nav-item">
-                {/* <a href="/logout" className="nav-link">Logout</a> */}
-                <a href="#" className="nav-link" onClick={this.clicksignOUT}>Logout</a>
-            </li>
+            logoutslashsignin =
+                <li className="nav-item">
+                    {/* <a href="/logout" className="nav-link">Logout</a> */}
+                    <a href="#" className="nav-link" onClick={this.clicksignOUT}>Logout</a>
+                </li>
         };
 
 

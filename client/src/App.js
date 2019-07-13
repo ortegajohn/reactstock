@@ -73,6 +73,12 @@ class App extends Component {
 
   };
 
+  signINFormSubmit = event =>{
+    event.preventDefault()
+    console.log("signINFormSubmit")
+
+  }
+
   handleFormInputChange = event => {
     console.log("event.target.value: ", event.target.value)
     console.log("event.target.name: ", event.target.name)
@@ -206,7 +212,9 @@ class App extends Component {
     }
 
     if(this.state.displaysignin){
-      dom_signin = <SignIn/>
+      dom_signin = <SignIn
+      signINFormSubmit={this.signINFormSubmit}
+      />
     }else{
       dom_signin = ""
     }

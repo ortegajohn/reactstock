@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserSignIn = () => {
+const UserSignIn = (props) => {
         return(
             <div>
                 <div className="form container">
@@ -18,7 +18,7 @@ const UserSignIn = () => {
                                     <a href="../SignUp/signup" className="btn btn-primary">
                                         Go to sign up
                                     </a>
-                                    <button className="btn btn-success" id="btn_submit_signin">
+                                    <button onClick={props.signINFormSubmit} className="btn btn-success" id="btn_submit_signin">
                                         Submit
                                     </button>
                                 </div>
