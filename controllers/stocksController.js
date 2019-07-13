@@ -54,5 +54,8 @@ module.exports = {
       res.json(dbStocks);
       // console.log("dbStocks: ", dbStocks)
     });
+  },
+  signup:function(req, res) {
+    console.log("stocksController.signup:function(req.body: ", req.body)
   }
 };
