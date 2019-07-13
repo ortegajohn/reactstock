@@ -7,6 +7,9 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
+// import friends from "./friends.json";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
@@ -18,7 +21,15 @@ let stock_ticker = {}
 let search_ticker = ""
 let stocksInfo_keys = []
 let dbstocks = []
-
+let signupformfirstname = ""
+let signupformlastname = ""
+let signupformusername = ""
+let signupformpassword = ""
+let guessmessage = 'Click an image to begin!'
+let displaysignup = false  
+let displaysignin = false 
+let dom_signup = ""
+let dom_signin = ""
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
@@ -29,7 +40,13 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
-    dbstocks: dbstocks
+    dbstocks: dbstocks,
+    signupformfirstname,
+    signupformlastname,
+    signupformusername,
+    signupformpassword,
+    displaysignup:displaysignup,
+    displaysignin:displaysignin
   };
 
   // START MODAL CODE
@@ -42,6 +59,39 @@ class App extends Component {
     this.setState({ ticker: event.target.value });
     console.log("event.target.value: ", event.target.value)
   };
+
+
+  signUpFormSubmit = event => {
+    event.preventDefault()
+    console.log("signUpFormSubmit: ")
+    let formdata = {
+      firstname:this.state.signupformfirstname,
+      lastname:this.state.signupformlastname,
+      username: this.state.signupformusername,
+      password: this.state.signupformpassword
+    }
+    API.sendSignUpForm(formdata)
+
+  };
+
+  signINFormSubmit = event =>{
+    event.preventDefault()
+    console.log("signINFormSubmit")
+
+  }
+
+  handleFormInputChange = event => {
+    console.log("event.target.value: ", event.target.value)
+    console.log("event.target.name: ", event.target.name)
+    this.setState({ [event.target.name]: event.target.value }, () => {
+      console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
+      console.log("this.state.signupformlastname: ", this.state.signupformlastname)
+      console.log("this.state.signupformusername: ", this.state.signupformusername)
+      console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+    });
+  }
+
+
 
   searchTicker = query => {
     console.log("searchTicker")
@@ -105,6 +155,31 @@ class App extends Component {
     });
 
   }
+  clicksignup = () => {
+
+    if(!this.state.displaysignup){
+      this.setState({displaysignup: true}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }else{
+      this.setState({displaysignup: false}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }
+  }
+
+  clicksignIN = () => {
+    if(!this.state.displaysignin){
+      this.setState({displaysignin: true}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }else{
+      this.setState({displaysignin: false}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }
+
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -128,11 +203,37 @@ class App extends Component {
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
+
+    if(this.state.displaysignup){
+      dom_signup = <SignUp
+      handleFormInputChange={this.handleFormInputChange}
+      signUpFormSubmit={this.signUpFormSubmit}
+      />;
+    }else{
+      dom_signup=""
+    }
+
+    if(this.state.displaysignin){
+      dom_signin = <SignIn
+      signINFormSubmit={this.signINFormSubmit}
+      />
+    }else{
+      dom_signin = ""
+    }
+    
+
+
     return (
       <Wrapper >
-        <div>
-        <Nav></Nav>
-         <SearchBar
+        <Nav
+        clicksignup={this.clicksignup}
+        clicksignIN={this.clicksignIN}
+        />
+        {dom_signup}
+        {dom_signin}
+
+        <SearchBar
+
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
           getdbstockdata={this.getdbstockdata}
@@ -145,34 +246,24 @@ class App extends Component {
           stocksInfo={this.state.stocksInfo}
         />
 
-        
-        {/* {this.state.friends.map(friend => (
-          <FriendCard
-            handleIncrement={this.handleIncrement}
-            id={friend.id}
-            key={friend.id} s
-            name={friend.name}
-            image={friend.image}
-          />
 
-        ))}  */}
- 
         <div>
           {this.state.stocksInfo_keys.map(ticker => (
             <Test
               ticker={this.state.stocksInfo[ticker]}
             />
-
           ))}
+
 
           <div>
             {this.state.dbstocks.map((data,idx) => (
               <DBdata
-                data={data}
-                handleShowMessageClick={() => this.handleShowMessageClick(idx)}
-              />
 
+                data={data}  
+     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
+              />
             ))}
+
 
             {this.state.showModal ? (
               <Modal onClose={this.handleCloseModal}>
@@ -183,6 +274,7 @@ class App extends Component {
                   <TradingViewWidget symbol={`NASDAQ:${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
               </Modal>
           ) : null}
+
 
           </div>
 

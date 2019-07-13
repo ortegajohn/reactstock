@@ -4,11 +4,13 @@ import DBdataBtn from "../DBdataBtn/DBdataBtn"
 
 function DBdata(props) {
   return (
+
     <DBdataBtn 
           data={props.data} 
           handleShowMessageClick={props.handleShowMessageClick}
           >
     </DBdataBtn>
+
   );
 }
 
