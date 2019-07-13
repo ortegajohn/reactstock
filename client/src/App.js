@@ -28,6 +28,8 @@ let signupformlastname = ""
 let signupformusername = ""
 let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
+let displaysignup = false  
+let a = ""
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
@@ -44,7 +46,8 @@ class App extends Component {
     signupformfirstname,
     signupformlastname,
     signupformusername,
-    signupformpassword
+    signupformpassword,
+    displaysignup:displaysignup
   };
 
   handleInputChange = event => {
@@ -141,7 +144,18 @@ class App extends Component {
 
 
   }
+  clicksignup = () => {
 
+    if(!this.state.displaysignup){
+      this.setState({displaysignup: true}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }else{
+      this.setState({displaysignup: false}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -165,13 +179,24 @@ class App extends Component {
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
+
+    if(this.state.displaysignup){
+      a = <SignUp
+      handleFormInputChange={this.handleFormInputChange}
+      signUpFormSubmit={this.signUpFormSubmit}
+      />;
+    }else{
+     a=""
+    }
     return (
       <Wrapper >
-        <Nav></Nav>
-        <SignUp
-        handleFormInputChange={this.handleFormInputChange}
-        signUpFormSubmit={this.signUpFormSubmit}
+        <Nav
+        clicksignup={this.clicksignup}
         />
+        {a}
+       
+
+
         <SignIn></SignIn>
         <SearchBar
           handleInputChange={this.handleInputChange}
