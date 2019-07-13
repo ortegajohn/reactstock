@@ -62,6 +62,7 @@ class App extends Component {
   // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
   componentDidMount () {
    this.getdbstockdata(); 
+  
   }
 
   // START MODAL CODE
@@ -151,6 +152,7 @@ class App extends Component {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
       console.log("This is dbstocks:", dbstocks)
+      
     });
   }
   clicksignup = () => {
@@ -190,12 +192,12 @@ class App extends Component {
     event.value = "";
   };
 
-componentDidUpdate(prevState) {
-    // Typical usage (don't forget to compare props):
-    if (this.state.ticker !== prevState.ticker) {
-      this.getdbstockdata();
-    }
-  }
+// componentDidUpdate(prevState) {
+//     // Typical usage (don't forget to compare props):
+//     if (this.state.ticker !== prevState.ticker) {
+//       this.getdbstockdata();
+//     }
+//   }
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
     
@@ -205,6 +207,11 @@ componentDidUpdate(prevState) {
 
         <div>
           <Nav></Nav>
+          <SignUp
+        handleFormInputChange={this.handleFormInputChange}
+        signUpFormSubmit={this.signUpFormSubmit}
+        />
+
           <SearchBar
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
