@@ -19,4 +19,5 @@ export default {
     console.log("API.getstocks res",res)
     return axios.get("/api/getstocks", res);
   }
+  
 };

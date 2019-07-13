@@ -6,6 +6,8 @@ import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
 import API from "./utils/API";
+// import StockChart from "./components/StockChart";
+import TradingViewWidget from 'react-tradingview-widget';
 
 let ticker = "";
 let price = 0;
@@ -15,6 +17,8 @@ let search_ticker = ""
 let stocksInfo_keys = []
 let dbstocks = []
 let guessmessage = 'Click an image to begin!'
+let index = {}
+
 
 class App extends Component {
   // Setting this.state.friends to the friends json array
@@ -26,21 +30,26 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
-    dbstocks: dbstocks
+    dbstocks: dbstocks,
+    index: index
   };
 
+ 
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
     console.log("event.target.value: ", event.target.value)
 
   };
 
+  getState = () => console.log(this.state);
+
   searchTicker = query => {
     console.log("searchTicker")
     API.search(query)
       .then((res) => {
-        // console.log("res.data.data[0].price: ", res.data.data[0].price)
-        // console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("res.data.data[0].price: ", res.data.data[0].price)
+        console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("Object.keys(res.data.data[0]): ", res.data.data[0].stock_exchange_short);
         // console.log("res.data.data[0].name: ", res.data.data[0].name)
         // console.log("res.data.data[0].change_pct: ", res.data.data[0].change_pct)
         // console.log("res.data.data[0].volume_avg: ", res.data.data[0].volume_avg)
@@ -49,9 +58,11 @@ class App extends Component {
 
         stock_ticker[res.data.data[0].symbol] = res.data.data[0]
 
+
         // console.log("stock_ticker: ", stock_ticker)
 
         this.setState({ price: res.data.data[0].price })
+        this.setState({ index: res.data.data[0].stock_exchange_short})
 
         this.setState({ stocksInfo: stock_ticker }, () => {
           stocksInfo_keys = Object.keys(this.state.stocksInfo)
@@ -92,6 +103,7 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
+      console.log("dbstocks: ", dbstocks)
     });
   }
 
@@ -102,10 +114,12 @@ class App extends Component {
     this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
     })
+    // update_chart(this.state.ticker)
     event.value = "";
     // db.Stocks.create(test).then(function (dbStocks) {
     //   console.log("dbStocks: ", dbStocks)
     // });
+    console.log("state: ", this.state.dbstocks)
   };
 
   // Map over this.state.friends and render a FriendCard component for each friend object
@@ -141,6 +155,21 @@ class App extends Component {
             ))}
           </div>
         </div>
+        
+  <TradingViewWidget 
+    symbol={this.state.ticker}
+    height="510"
+    interval= "D"
+    timezone= "Etc/UTC"
+    theme= "Light"
+    style= "1"
+    locale= "en"
+    toolbar_bg= "#f1f3f6"
+    enable_publishing= "false"
+    allow_symbol_change= "true"
+  />
+
+        {/* <StockChart /> */}
       </Wrapper>
     );
   }

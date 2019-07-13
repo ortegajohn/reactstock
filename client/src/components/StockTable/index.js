@@ -9,11 +9,11 @@ let getkeys = (ticker, obj) => {
     let avg_vol
     let name
     console.log("ZZZZZZticker: ", ticker)
-    console.log("ZZZZZZ: ", Object.keys(obj))
+    console.log("ZZZZZZchurp: ", Object.keys(obj))
     if (ticker !== undefined) {
         if (a.length > 0) {
             a.forEach(function (element) {
-                console.log("MMM", element)
+                console.log("element", element)
                 if (element.toUpperCase() === ticker.toUpperCase()) {
                     console.log("YYYYYY: ", obj[ticker.toUpperCase()].volume_avg)
                     avg_vol = obj[ticker.toUpperCase()].volume_avg
