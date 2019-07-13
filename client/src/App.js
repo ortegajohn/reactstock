@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 // import FriendCard from "./components/FriendCard";
 import Test from "./components/Test";
 import DBdata from "./components/DBdata";
@@ -30,15 +31,15 @@ let signupformlastname = ""
 let signupformusername = ""
 let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
-let displaysignup = false  
-let displaysignin = false 
+let displaysignup = false
+let displaysignin = false
 let dom_signup = ""
 let dom_signin = ""
 class App extends Component {
 
-/* ========================================================================
-                              SETTING STATE
-   ======================================================================== */
+  /* ========================================================================
+                                SETTING STATE
+     ======================================================================== */
   state = {
     showModal: false,
     ticker: ticker,
@@ -51,8 +52,8 @@ class App extends Component {
     signupformlastname,
     signupformusername,
     signupformpassword,
-    displaysignup:displaysignup,
-    displaysignin:displaysignin
+    displaysignup: displaysignup,
+    displaysignin: displaysignin,
   };
 
   /* ========================================================================
@@ -60,15 +61,15 @@ class App extends Component {
      ======================================================================== */
 
   // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
-  componentDidMount () {
-   this.getdbstockdata(); 
-  
+  componentDidMount() {
+    this.getdbstockdata();
+
   }
 
   // START MODAL CODE
   // Modal Show and Close functions:
-  handleShowMessageClick = (idx) => this.setState({showModal: true, clickedIndex: idx})
-  handleCloseModal = () => this.setState({showModal: false})
+  handleShowMessageClick = (idx) => this.setState({ showModal: true, clickedIndex: idx })
+  handleCloseModal = () => this.setState({ showModal: false })
   // END MODAL CODE
 
   // TRACKS WHAT GOES INTO THE SEARCH BAR
@@ -82,8 +83,8 @@ class App extends Component {
     event.preventDefault()
     console.log("signUpFormSubmit: ")
     let formdata = {
-      firstname:this.state.signupformfirstname,
-      lastname:this.state.signupformlastname,
+      firstname: this.state.signupformfirstname,
+      lastname: this.state.signupformlastname,
       username: this.state.signupformusername,
       password: this.state.signupformpassword
     }
@@ -91,7 +92,7 @@ class App extends Component {
 
   };
 
-  signINFormSubmit = event =>{
+  signINFormSubmit = event => {
     event.preventDefault()
     console.log("signINFormSubmit")
 
@@ -136,7 +137,7 @@ class App extends Component {
           marketCap: res.data.data[0].market_cap,
           avgVol: res.data.data[0].volume_avg
         }
-        
+
         API.savestock(test).then((res) => {
           console.log("res: ", res)
         });
@@ -152,30 +153,30 @@ class App extends Component {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
       console.log("This is dbstocks:", dbstocks)
-      
+
     });
   }
-  clicksignup = () => {
+  displaysignup_function = () => {
 
-    if(!this.state.displaysignup){
-      this.setState({displaysignup: true}, () =>{
-        console.log("this.state.displaysignup: ",this.state.displaysignup)
+    if (!this.state.displaysignup) {
+      this.setState({ displaysignup: true }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
       })
-    }else{
-      this.setState({displaysignup: false}, () =>{
-        console.log("this.state.displaysignup: ",this.state.displaysignup)
+    } else {
+      this.setState({ displaysignup: false }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
       })
     }
   }
 
   clicksignIN = () => {
-    if(!this.state.displaysignin){
-      this.setState({displaysignin: true}, () =>{
-        console.log("this.state.displaysignin: ",this.state.displaysignin)
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
-    }else{
-      this.setState({displaysignin: false}, () =>{
-        console.log("this.state.displaysignin: ",this.state.displaysignin)
+    } else {
+      this.setState({ displaysignin: false }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
 
@@ -192,30 +193,42 @@ class App extends Component {
     event.value = "";
   };
 
-// componentDidUpdate(prevState) {
-//     // Typical usage (don't forget to compare props):
-//     if (this.state.ticker !== prevState.ticker) {
-//       this.getdbstockdata();
-//     }
-//   }
+  // componentDidUpdate(prevState) {
+  //     // Typical usage (don't forget to compare props):
+  //     if (this.state.ticker !== prevState.ticker) {
+  //       this.getdbstockdata();
+  //     }
+  //   }
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
-    
+
     return (
 
       <Wrapper >
 
         <div>
-          <Nav></Nav>
-          <SignUp
-        handleFormInputChange={this.handleFormInputChange}
-        signUpFormSubmit={this.signUpFormSubmit}
-        />
+          <Nav
+            displaysignup_function={this.displaysignup_function}
+            displaysignup={this.state.displaysignup}
+          />
+
+
+          {/* <SignUp
+            handleFormInputChange={this.handleFormInputChange}
+            signUpFormSubmit={this.signUpFormSubmit}
+          /> */}
+          <Router>
+            <div>
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signin" component={SignIn} />
+            </div>
+          </Router>
+
 
           <SearchBar
-          handleInputChange={this.handleInputChange}
-          handleFormSubmit={this.handleFormSubmit}
-          getdbstockdata={this.getdbstockdata}
+            handleInputChange={this.handleInputChange}
+            handleFormSubmit={this.handleFormSubmit}
+            getdbstockdata={this.getdbstockdata}
           />
         </div>
 
@@ -224,7 +237,7 @@ class App extends Component {
             <div className='col-12'>
               <div className='card-deck'>
 
-                {this.state.dbstocks.map((data,idx) => (
+                {this.state.dbstocks.map((data, idx) => (
                   <DBdata
                     data={data}
                     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
@@ -233,13 +246,13 @@ class App extends Component {
 
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
-                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
-                      <br />
-                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
-                      <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
-                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+                    <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                    <br />
+                    <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                    <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
+                    <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
                   </Modal>
-              ) : null}
+                ) : null}
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ const UserSignIn = (props) => {
                                     <input type="password" name="password" className="form-control" id="input_password_signin" placeholder="Password: " />
                                 </div>
                                 <div className="form-group d-flex justify-content-center btn-container">
-                                    <a href="../SignUp/signup" className="btn btn-primary">
+                                    <a href="./SignUp" className="btn btn-primary">
                                         Go to sign up
                                     </a>
                                     <button onClick={props.signINFormSubmit} className="btn btn-success" id="btn_submit_signin">
