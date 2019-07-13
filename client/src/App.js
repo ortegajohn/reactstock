@@ -238,7 +238,6 @@ class App extends Component {
           handleFormSubmit={this.handleFormSubmit}
           getdbstockdata={this.getdbstockdata}
         />
-        </div>
          
         <StockTable
           search_ticker={this.state.search_ticker}
