@@ -49,6 +49,10 @@ class App extends Component {
     displaysignin:displaysignin
   };
 
+  componentDidMount () {
+   this.getdbstockdata(); 
+  }
+
   // START MODAL CODE
   // Modal Show and Close functions:
   handleShowMessageClick = (idx) => this.setState({showModal: true, clickedIndex: idx})
@@ -146,14 +150,12 @@ class App extends Component {
   };
 
   getdbstockdata = event => {
-    event.preventDefault();
+    // event.preventDefault();
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
       console.log("This is dbstocks:", dbstocks)
-
     });
-
   }
   clicksignup = () => {
 
@@ -189,96 +191,55 @@ class App extends Component {
       this.searchTicker(this.state.search_ticker);
     })
 
-
     event.value = "";
-    // db.Stocks.create(test).then(function (dbStocks) {
-    //   console.log("dbStocks: ", dbStocks)
-    // });
-
   };
 
-  //   sendThru(event) {
-  //     event.value = "";    
-  // }
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
-
-    if(this.state.displaysignup){
-      dom_signup = <SignUp
-      handleFormInputChange={this.handleFormInputChange}
-      signUpFormSubmit={this.signUpFormSubmit}
-      />;
-    }else{
-      dom_signup=""
-    }
-
-    if(this.state.displaysignin){
-      dom_signin = <SignIn
-      signINFormSubmit={this.signINFormSubmit}
-      />
-    }else{
-      dom_signin = ""
-    }
     
-
-
     return (
+
       <Wrapper >
-        <Nav
-        clicksignup={this.clicksignup}
-        clicksignIN={this.clicksignIN}
-        />
-        {dom_signup}
-        {dom_signin}
 
+        <div>
+        <Nav></Nav>
         <SearchBar
-
-          handleInputChange={this.handleInputChange}
-          handleFormSubmit={this.handleFormSubmit}
-          getdbstockdata={this.getdbstockdata}
+        handleInputChange={this.handleInputChange}
+        handleFormSubmit={this.handleFormSubmit}
+        getdbstockdata={this.getdbstockdata}
         />
-         
-        <StockTable
+        {/* <StockTable
           search_ticker={this.state.search_ticker}
           price={this.state.price}
           stocksInfo={this.state.stocksInfo}
-        />
-
-
-        <div>
-          {this.state.stocksInfo_keys.map(ticker => (
-            <Test
-              ticker={this.state.stocksInfo[ticker]}
-            />
-          ))}
-
-
-          <div>
-            {this.state.dbstocks.map((data,idx) => (
-              <DBdata
-
-                data={data}  
-     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
-              />
-            ))}
-
-
-            {this.state.showModal ? (
-              <Modal onClose={this.handleCloseModal}>
-                  <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
-                  <br />
-                  <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
-                  <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
-                  <TradingViewWidget symbol={`NASDAQ:${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
-              </Modal>
-          ) : null}
-
-
-          </div>
-
+        /> */}
         </div>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+              <div className='card-deck'>
 
+                {this.state.dbstocks.map((data,idx) => (
+                  <DBdata
+                    data={data}
+                    handleShowMessageClick={() => this.handleShowMessageClick(idx)}
+                  />
+                ))}
+
+                {this.state.showModal ? (
+                  <Modal onClose={this.handleCloseModal}>
+                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                      <br />
+                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                      <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
+                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+                  </Modal>
+              ) : null}
+              </div>
+            </div>
+          </div>
+        </div>
       </Wrapper>
     );
   }
