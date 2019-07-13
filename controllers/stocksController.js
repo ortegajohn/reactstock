@@ -35,10 +35,23 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   savebook: function(req, res) {
+    console.log("Object.keys(req): ", Object.keys(req));
+    console.log("savebook.req.body: ", req.body);
+    db.Stocks.create(req.body).then(function (dbStocks,err) {
+      if(err){
+        console.log("err: ", err)
+      }
+      // console.log("dbStocks: ", dbStocks)
+    });
+  },
+  getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
-    console.log("req.body: ", req.body);
-    db.Stocks.create(req.body).then(function (dbStocks) {
-      
+    // console.log("getstocks.req.body: ", req.body);
+    db.Stocks.findAll({}).then(function (dbStocks,err) {
+      if(err){
+        console.log("err: ", err)
+      }
+      res.json(dbStocks);
       // console.log("dbStocks: ", dbStocks)
     });
   }
