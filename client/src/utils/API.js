@@ -1,4 +1,5 @@
 import axios from "axios";
+// import request from "request";
 
 // const ticker = "GDX"
 const BASEURL = "https://www.worldtradingdata.com/api/v1/stock?symbol=";
@@ -10,6 +11,7 @@ export default {
   },
 
   savestock: function(booksData) {
+    
     return axios.post("/api/stocks", booksData);
   },
 

@@ -35,7 +35,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   savebook: function(req, res) {
-    // console.log("Object.keys(req): ", Object.keys(req));
+    console.log("Object.keys(req): ", Object.keys(req));
     console.log("savebook.req.body: ", req.body);
     db.Stocks.create(req.body).then(function (dbStocks,err) {
       if(err){

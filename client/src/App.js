@@ -10,12 +10,10 @@ import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
+import Modal from "./components/Modal/Modal"
+import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 
-
-// var db = require("../../models");
-let score = 0;
-let topscore = 0;
 let ticker = "";
 let price = 0;
 let stocksInfo = {}
@@ -36,9 +34,7 @@ class App extends Component {
   // Setting this.state.friends to the friends json array
 
   state = {
-    score: score,
-    topscore: topscore,
-    guessmessage: guessmessage,
+    showModal: false,
     ticker: ticker,
     price: price,
     stocksInfo: stocksInfo,
@@ -53,10 +49,15 @@ class App extends Component {
     displaysignin:displaysignin
   };
 
+  // START MODAL CODE
+  // Modal Show and Close functions:
+  handleShowMessageClick = (idx) => this.setState({showModal: true, clickedIndex: idx})
+  handleCloseModal = () => this.setState({showModal: false})
+  // END MODAL CODE
+
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
     console.log("event.target.value: ", event.target.value)
-
   };
 
 
@@ -97,7 +98,8 @@ class App extends Component {
     API.search(query)
       .then((res) => {
         // console.log("res.data.data[0].price: ", res.data.data[0].price)
-        // console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("stock xchange short: ", res.data.data[0].stock_exchange_short);
         // console.log("res.data.data[0].name: ", res.data.data[0].name)
         // console.log("res.data.data[0].change_pct: ", res.data.data[0].change_pct)
         // console.log("res.data.data[0].volume_avg: ", res.data.data[0].volume_avg)
@@ -128,7 +130,7 @@ class App extends Component {
           marketCap: res.data.data[0].market_cap,
           avgVol: res.data.data[0].volume_avg
         }
-
+        
         API.savestock(test).then((res) => {
           console.log("res: ", res)
           // console.log("res.data.data[0].price: ", res.data.data[0].price)
@@ -148,9 +150,9 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
+      console.log("This is dbstocks:", dbstocks)
 
     });
-
 
   }
   clicksignup = () => {
@@ -229,21 +231,21 @@ class App extends Component {
         />
         {dom_signup}
         {dom_signin}
-       
 
-
-        
         <SearchBar
+
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
           getdbstockdata={this.getdbstockdata}
         />
-
+        </div>
+         
         <StockTable
           search_ticker={this.state.search_ticker}
           price={this.state.price}
           stocksInfo={this.state.stocksInfo}
         />
+
 
         <div>
           {this.state.stocksInfo_keys.map(ticker => (
@@ -254,18 +256,29 @@ class App extends Component {
 
 
           <div>
-            {this.state.dbstocks.map(data => (
+            {this.state.dbstocks.map((data,idx) => (
               <DBdata
-                data={data}                
+
+                data={data}  
+     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
               />
             ))}
+
+
+            {this.state.showModal ? (
+              <Modal onClose={this.handleCloseModal}>
+                  <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                  <br />
+                  <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                  <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
+                  <TradingViewWidget symbol={`NASDAQ:${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+              </Modal>
+          ) : null}
+
+
           </div>
 
         </div>
-
-
-
-
 
       </Wrapper>
     );

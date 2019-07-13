@@ -12,6 +12,7 @@ const mysqlstore = require('express-mysql-session');
 const passport = require('passport');
 const colors = require('colors');
 
+
 const PORT = process.env.PORT || 3001;
 //////////////////////////////////////////
 require('./config/passport');
@@ -53,6 +54,7 @@ app.use((req, res, next) => {
 
 
 //////////////////////////////////////////
+
 
 
 // Define middleware here
