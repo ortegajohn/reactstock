@@ -14,6 +14,7 @@ import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
+import axios from "axios";
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -147,6 +148,14 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  getUserId = event => {
+    event.preventDefault();
+    console.log("Start getUserId")
+    API.getUseId().then((res) => {
+      console.log(" getUseId res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
   // GET DATA FROM THE DB
   getdbstockdata = event => {
     API.getstocks().then((res) => {
@@ -219,8 +228,8 @@ class App extends Component {
           /> */}
           <Router>
             <div>
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/signin" component={SignIn} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/signin" component={SignIn} />
             </div>
           </Router>
 
@@ -229,6 +238,7 @@ class App extends Component {
             handleInputChange={this.handleInputChange}
             handleFormSubmit={this.handleFormSubmit}
             getdbstockdata={this.getdbstockdata}
+            getUserId={this.getUserId}
           />
         </div>
 

@@ -1,7 +1,43 @@
-import React from 'react';
+// import React from 'react';
+import React, { Component } from "react";
+import API from "../../utils/API";
 
-const UserSignIn = (props) => {
-        return(
+let signinformusername = ""
+let signinformpassword = ""
+
+
+
+class UserSignIn extends Component {
+    constructor() {
+        super()
+        this.state = {
+            signinformusername,
+            signinformpassword
+        }
+    }
+    // const UserSignIn = (props) => {
+        handleFormInputChange = event => {
+            console.log("event.target.value: ", event.target.value)
+            console.log("event.target.name: ", event.target.name)
+            this.setState({ [event.target.name]: event.target.value }, () => {
+              console.log("this.state.signupformusername: ", this.state.signinformusername)
+              console.log("this.state.signupformpassword: ", this.state.signinformpassword)
+            });
+          }
+        signINFormSubmit = event => {
+            event.preventDefault()
+            console.log("signINFormSubmit")
+            let formdata = {
+                username: this.state.signinformusername,
+                password: this.state.signinformpassword
+              }
+              API.sendSignUpForm(formdata)
+        
+          }
+    render() {
+
+
+        return (
             <div>
                 <div className="form container">
                     <div className="row form-signin-container">
@@ -9,16 +45,16 @@ const UserSignIn = (props) => {
                             <form action="/signin" method="POST" className="form-signin" id="form_signin">
                                 <h3 className="title-signin">Sign In Form</h3>
                                 <div className="form-group">
-                                    <input type="text" name="username" className="form-control" id="input_username_signin" placeholder="Username: " />
+                                    <input onChange={this.handleFormInputChange} type="text" name="signinformusername" className="form-control" id="input_username_signin" placeholder="Username: " />
                                 </div>
                                 <div className="form-group">
-                                    <input type="password" name="password" className="form-control" id="input_password_signin" placeholder="Password: " />
+                                    <input onChange={this.handleFormInputChange} type="password" name="signinformpassword" className="form-control" id="input_password_signin" placeholder="Password: " />
                                 </div>
                                 <div className="form-group d-flex justify-content-center btn-container">
                                     <a href="./SignUp" className="btn btn-primary">
                                         Go to sign up
                                     </a>
-                                    <button onClick={props.signINFormSubmit} className="btn btn-success" id="btn_submit_signin">
+                                    <button onClick={this.signINFormSubmit} className="btn btn-success" id="btn_submit_signin">
                                         Submit
                                     </button>
                                 </div>
@@ -26,8 +62,9 @@ const UserSignIn = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
+}
 
-    export default UserSignIn;
+export default UserSignIn;
