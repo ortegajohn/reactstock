@@ -9,12 +9,13 @@ function DBdataBtn(props) {
             {props.showModal ? (
                 <Modal 
                 onClose={this.handleCloseModal}>
-                this is the modal
                 </Modal>
             ) : null}
                 {props.data.ticker}
                 <br/>
-                {props.data.price} 
+                {props.data.price}
+                {props.data.stock_exchange_short} 
+ 
         </div>
   );
 }

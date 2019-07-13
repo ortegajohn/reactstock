@@ -8,6 +8,7 @@ import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockTable from "./components/StockTable";
 import Modal from "./components/Modal/Modal"
+import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 
 let ticker = "";
@@ -17,13 +18,12 @@ let stock_ticker = {}
 let search_ticker = ""
 let stocksInfo_keys = []
 let dbstocks = []
-let guessmessage = 'Click an image to begin!'
+
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
   state = {
     showModal: false,
-    guessmessage: guessmessage,
     ticker: ticker,
     price: price,
     stocksInfo: stocksInfo,
@@ -48,7 +48,8 @@ class App extends Component {
     API.search(query)
       .then((res) => {
         // console.log("res.data.data[0].price: ", res.data.data[0].price)
-        // console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
+        console.log("stock xchange short: ", res.data.data[0].stock_exchange_short);
         // console.log("res.data.data[0].name: ", res.data.data[0].name)
         // console.log("res.data.data[0].change_pct: ", res.data.data[0].change_pct)
         // console.log("res.data.data[0].volume_avg: ", res.data.data[0].volume_avg)
@@ -99,12 +100,11 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
+      console.log("This is dbstocks:", dbstocks)
 
     });
 
-
   }
-
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -175,23 +175,18 @@ class App extends Component {
             ))}
 
             {this.state.showModal ? (
-              <Modal
-              onClose={this.handleCloseModal}
-              >
-                  Stock Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}
-                  Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}
+              <Modal onClose={this.handleCloseModal}>
+                  <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                  <br />
+                  <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                  <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
+                  <TradingViewWidget symbol={`NASDAQ:${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
               </Modal>
           ) : null}
 
           </div>
 
-
-
         </div>
-
-
-
-
 
       </Wrapper>
     );
