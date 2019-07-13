@@ -75,9 +75,13 @@ class App extends Component {
 
   signINFormSubmit = event =>{
     event.preventDefault()
-    console.log("signINFormSubmit")
-
-  }
+    console.log("signINFormSubmit: ")
+    let formData = {
+      username: this.state.signinformusername,
+      password: this.state.signinformpassword
+    }
+    API.sendSignINForm(formData)
+  };
 
   handleFormInputChange = event => {
     console.log("event.target.value: ", event.target.value)
