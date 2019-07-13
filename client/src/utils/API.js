@@ -21,6 +21,7 @@ export default {
 
   sendSignUpForm: function(SignUpFormData){
     console.log("API.sendSignUpForm SignUpFormData",SignUpFormData)
-    return axios.post("/api/signup", SignUpFormData);
+    return axios.post("/signup", SignUpFormData);
+    // return axios.post("/api/signup", SignUpFormData);
   }
 };

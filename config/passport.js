@@ -48,6 +48,7 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 
 }, async (req, username, password, done) => {
+    console.log("GOTHERE3")
 
     const {
         firstname

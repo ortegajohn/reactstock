@@ -58,7 +58,10 @@ class App extends Component {
     event.preventDefault()
     console.log("signUpFormSubmit: ")
     let formdata = {
-      firstname: this.state.signupformfirstname
+      firstname:this.state.signupformfirstname,
+      lastname:this.state.signupformlastname,
+      username: this.state.signupformusername,
+      password: this.state.signupformpassword
     }
     API.sendSignUpForm(formdata)
 

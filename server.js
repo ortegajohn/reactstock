@@ -41,18 +41,41 @@ app.use(express.urlencoded({
 app.use(passport.initialize());
 
 app.use(passport.session());
+/* Global Variables */
+app.use((req, res, next) => {
+
+  app.locals.success = req.flash('success');
+  app.locals.message = req.flash('message');
+  app.locals.user = req.user;
+  next();
+
+});
+
+
 //////////////////////////////////////////
 
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+//////////////////////////////////////////////////////////////////////////////////
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'jsx');
+// app.engine('jsx', require('express-react-views').createEngine());
+
+// var options = { beautify: true };
+// app.engine('jsx', require('express-react-views').createEngine(options));
+
+// app.get('/', require('./routes').index);
+
+//////////////////////////////////////////////////////////////////////////////////
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 // Add routes, both API and view
 app.use(routes);
+app.use(require('./routes/authentication'));
 
 var syncOptions = { force: false };
 if (process.env.NODE_ENV === "test") {

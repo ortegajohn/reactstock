@@ -19,16 +19,16 @@ const { isNotLoggedIn } = require('../../config/helper_auth');
 //   .delete(booksController.remove);
 
 router
-  .route("/")
+  // .route("/")
   // .post(isNotLoggedIn);
   // .post(booksController.signup);
   // .get(booksController.findById)
   // .put(booksController.update)
   // .delete(booksController.remove);
-  .post(isNotLoggedIn, passport.authenticate('local.signup', {
-    successRedirect: "/success",
-    failureRedirect: "/failue"
-    // failureFlash: true
+  .post("/", isNotLoggedIn, passport.authenticate('local.signup', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash: true
 }))
 // .post(passport.authenticate('local.signup', {
 //   successRedirect: "/success",
