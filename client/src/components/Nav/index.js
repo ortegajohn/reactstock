@@ -15,7 +15,8 @@ function Nav(props) {
                     <a href="/logout" className="nav-link">Logout</a>
                 </li>
                 <li className="nav-item">
-                    <a href="/signin" className="nav-link">Sign In</a>
+                    {/* <a href="/signin" className="nav-link">Sign In</a> */}
+                    <a href="#" className="nav-link" onClick={props.clicksignIN}>Sign In</a>
                 </li>
                 <li className="nav-item">
                     {/* <a href="/signup" className="nav-link" onClick={props.clicksignup}>Sign Up</a> */}

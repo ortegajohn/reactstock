@@ -29,7 +29,9 @@ let signupformusername = ""
 let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false  
-let a = ""
+let displaysignin = false 
+let dom_signup = ""
+let dom_signin = ""
 class App extends Component {
   // Setting this.state.friends to the friends json array
 
@@ -47,7 +49,8 @@ class App extends Component {
     signupformlastname,
     signupformusername,
     signupformpassword,
-    displaysignup:displaysignup
+    displaysignup:displaysignup,
+    displaysignin:displaysignin
   };
 
   handleInputChange = event => {
@@ -157,6 +160,19 @@ class App extends Component {
     }
   }
 
+  clicksignIN = () => {
+    if(!this.state.displaysignin){
+      this.setState({displaysignin: true}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }else{
+      this.setState({displaysignin: false}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }
+
+  }
+
   handleFormSubmit = event => {
     event.preventDefault();
     console.log("Clicked Submit")
@@ -181,23 +197,34 @@ class App extends Component {
   render() {
 
     if(this.state.displaysignup){
-      a = <SignUp
+      dom_signup = <SignUp
       handleFormInputChange={this.handleFormInputChange}
       signUpFormSubmit={this.signUpFormSubmit}
       />;
     }else{
-     a=""
+      dom_signup=""
     }
+
+    if(this.state.displaysignin){
+      dom_signin = <SignIn/>
+    }else{
+      dom_signin = ""
+    }
+    
+
+
     return (
       <Wrapper >
         <Nav
         clicksignup={this.clicksignup}
+        clicksignIN={this.clicksignIN}
         />
-        {a}
+        {dom_signup}
+        {dom_signin}
        
 
 
-        <SignIn></SignIn>
+        
         <SearchBar
           handleInputChange={this.handleInputChange}
           handleFormSubmit={this.handleFormSubmit}
