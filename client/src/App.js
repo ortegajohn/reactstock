@@ -237,18 +237,6 @@ class App extends Component {
           stocksInfo={this.state.stocksInfo}
         />
 
-        {/* 
-        {this.state.friends.map(friend => (
-          <FriendCard
-            handleIncrement={this.handleIncrement}
-            id={friend.id}
-            key={friend.id} s
-            name={friend.name}
-            image={friend.image}
-          />
-
-        ))} */}
-
         <div>
           {this.state.stocksInfo_keys.map(ticker => (
             <Test
