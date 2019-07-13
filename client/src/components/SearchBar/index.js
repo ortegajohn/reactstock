@@ -18,7 +18,7 @@ const SearchBar = props => {
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.handleFormSubmit}>
                 Submit
             </button>
-            <br></br>
+            
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.getdbstockdata}>
                 stockdata
             </button>

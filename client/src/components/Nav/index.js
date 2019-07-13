@@ -18,11 +18,11 @@ function Nav(props) {
                     <a href="/signin" className="nav-link">Sign In</a>
                 </li>
                 <li className="nav-item">
-                    <a href="/signup" className="nav-link">Sing Up</a>
+                    <a href="/signup" className="nav-link">Sign Up</a>
                 </li>
             </ul>
         </div>
-    </div>;
+    </div>
 </nav>
     
     )
