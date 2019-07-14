@@ -25,11 +25,15 @@ router
   // .get(booksController.findById)
   // .put(booksController.update)
   // .delete(booksController.remove);
-  .post("/", isNotLoggedIn, passport.authenticate('local.signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true
-}))
+  .post("/", isNotLoggedIn, passport.authenticate('local.signup',  function(req, res) {
+  res.redirect('/');
+  }
+//   {
+//     successRedirect: '/',
+//     failureRedirect: '/signup',
+//     failureFlash: true
+// }
+))
 // .post(passport.authenticate('local.signup', {
 //   successRedirect: "/success",
 //   failureRedirect: "/failue"

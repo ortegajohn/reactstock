@@ -14,11 +14,18 @@ expressRouter.get('/signup', isNotLoggedIn, (req, res) => {
     res.send('hello world')
 });
 
-expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup', {
+expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup',
+
+// function(req, res) {
+// res.redirect('http://google.com')
+// }
+{
     successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true
-}));
+}
+
+));
 
 expressRouter.get('/signin', isNotLoggedIn, (req, res) => {
     // res.render('auth/signin');
