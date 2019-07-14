@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "../Modal/Modal"
 import './DBdataBtn.css'
 
-// http://localhost:3001/api/getstocks
 function DBdataBtn(props) {
 
   return (
@@ -17,6 +16,7 @@ function DBdataBtn(props) {
               {props.data.ticker}
               <br/>
               {props.data.price}
+              <br/>
               {props.data.stock_exchange_short} 
       </div>
   );

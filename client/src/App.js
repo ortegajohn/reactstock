@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 // import FriendCard from "./components/FriendCard";
-import Test from "./components/Test";
+// import Test from "./components/Test";
 import DBdata from "./components/DBdata";
 import Wrapper from "./components/Wrapper";
 // import Title from "./components/Title";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
-import StockTable from "./components/StockTable";
+// import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
+// import SignUp from "./components/SignUp";
+// import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
@@ -17,7 +17,6 @@ import API from "./utils/API";
 /* ========================================================================
                               GLOBAL VARIABLES
    ======================================================================== */
-
 let ticker = "";
 let price = 0;
 let stocksInfo = {}
@@ -29,17 +28,17 @@ let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
 let signupformpassword = ""
-let guessmessage = 'Click an image to begin!'
 let displaysignup = false  
 let displaysignin = false 
-let dom_signup = ""
-let dom_signin = ""
+// let dom_signup = ""
+// let dom_signin = ""
 class App extends Component {
 
 /* ========================================================================
                               SETTING STATE
    ======================================================================== */
   state = {
+    dataLength: null,
     showModal: false,
     ticker: ticker,
     price: price,
@@ -150,9 +149,15 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
+      this.setState({ dataLength: Object.keys(res.data).length })
       console.log("This is dbstocks:", dbstocks)
+      console.log("length: ", Object.keys(res.data).length);
+      console.log("from dbstocksdata f dataLength: ", this.state.dataLength)
+
     });
   }
+
+
   clicksignup = () => {
 
     if(!this.state.displaysignup){
@@ -189,15 +194,16 @@ class App extends Component {
     })
     event.value = "";
   };
-
-componentDidUpdate(prevState) {
-    // Typical usage (don't forget to compare props):
-    if (this.state.ticker !== prevState.ticker) {
-      this.getdbstockdata();
-    }
-  }
-  // Map over this.state.friends and render a FriendCard component for each friend object
-  render() {
+  
+//   // Map over this.state.friends and render a FriendCard component for each friend object
+// componentDidUpdate(_prevProps, prevState) {
+//   // Typical usage (don't forget to compare props):
+//   if (this.state.ticker !== prevState.ticker) {
+//     this.getdbstockdata();
+//     this.state.ticker = this.state.ticker;
+//   }
+// }
+render() {
     
     return (
 
@@ -219,7 +225,9 @@ componentDidUpdate(prevState) {
 
                 {this.state.dbstocks.map((data,idx) => (
                   <DBdata
+                    stocksInfo_keys={this.state.stocksInfo_keys}
                     data={data}
+                    getdbstockdata={() => this.getdbstockdata()}
                     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
                   />
                 ))}
