@@ -16,7 +16,7 @@ expressRouter.get('/signup', isNotLoggedIn, (req, res) => {
 
 expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup', {
     successRedirect: '/',
-    failureRedirect: '/signin',
+    failureRedirect: '/',
     failureFlash: true
 }));
 

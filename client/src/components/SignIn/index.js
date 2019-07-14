@@ -31,7 +31,7 @@ class UserSignIn extends Component {
                 username: this.state.signinformusername,
                 password: this.state.signinformpassword
               }
-              API.sendSignUpForm(formdata)
+              API.sendSignInForm(formdata)
         
           }
     render() {

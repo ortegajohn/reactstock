@@ -27,12 +27,15 @@ export default {
     // return axios.post("/api/signup", SignUpFormData);
   },
 
-  sendSignUpForm: function(SignInFormData){
+  sendSignInForm: function(SignInFormData){
     console.log("API.sendSignUpForm SignUpFormData",SignInFormData)
     return axios.post("/signin", SignInFormData);
     // return axios.post("/api/signup", SignUpFormData);
   },
   getUseId: function(req, res){
     return axios.get("/api/getuserid");
+  },
+  logout: function(){
+    return axios.get("/api/logout");
   }
 };

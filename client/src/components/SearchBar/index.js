@@ -21,6 +21,9 @@ const SearchBar = props => {
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.getUserId}>
                 get user id
             </button>
+            <button type="submit" className="submitBtn btn btn-primary" onClick={props.logout}>
+                Logout
+            </button>
             
         </form>
     )

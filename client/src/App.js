@@ -148,6 +148,14 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  logout =  event => {
+    event.preventDefault();
+    API.logout().then((res) => {
+      console.log(" logout res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+
   getUserId = event => {
     event.preventDefault();
     console.log("Start getUserId")
@@ -239,6 +247,7 @@ class App extends Component {
             handleFormSubmit={this.handleFormSubmit}
             getdbstockdata={this.getdbstockdata}
             getUserId={this.getUserId}
+            logout={this.logout}
           />
         </div>
 

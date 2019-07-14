@@ -16,7 +16,7 @@ module.exports = {
         console.log("req.isLoggedIn", req.isLoggedIn)
         // console.log("helper_auth res Object.keys",Object.keys( res))
         console.log("helper_auth isNotLoggedIn")
-        if (req.isAuthenticated()) {
+        if (!req.isAuthenticated()) {
             console.log("!req.isAuthenticated()")
             return next();
         } else {
