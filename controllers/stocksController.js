@@ -44,6 +44,13 @@ module.exports = {
       // console.log("dbStocks: ", dbStocks)
     });
   },
+  updateStocks: function (req, res) {
+    db.Stocks.update({ ticker: req.params.ticker }, req.body)
+    .then(function(
+      dbStocks
+    ) { res.json(dbStocks);
+    });
+  },
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);

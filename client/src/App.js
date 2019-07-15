@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 // import FriendCard from "./components/FriendCard";
-import Test from "./components/Test";
-import DBdata from "./components/DBdata";
+// import Test from "./components/Test";
 import Wrapper from "./components/Wrapper";
 // import Title from "./components/Title";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
-import StockTable from "./components/StockTable";
-// import friends from "./friends.json";
+import StockCardHolder from "./components/StockCardHolder";
 import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
+// import StockTable from "./components/StockTable";
+// import friends from "./friends.json";
+// import SignUp from "./components/SignUp";
+// import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
@@ -19,14 +20,15 @@ import axios from "axios";
 /* ========================================================================
                               GLOBAL VARIABLES
    ======================================================================== */
-
 let ticker = "";
 let price = 0;
 let stocksInfo = {}
 let stock_ticker = {}
 let search_ticker = ""
+// let percentChange = null;
 let stocksInfo_keys = []
 let dbstocks = []
+// let cardBG = ""
 let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
@@ -37,6 +39,7 @@ let displaysignin = false
 let isUserLoggedIn = false
 let dom_signup = ""
 let dom_signin = ""
+
 class App extends Component {
 
   /* ========================================================================
@@ -49,6 +52,8 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
+    // percentChange: percentChange,
+    // cardBG: cardBG,
     dbstocks: dbstocks,
     signupformfirstname,
     signupformlastname,
@@ -64,9 +69,8 @@ class App extends Component {
      ======================================================================== */
 
   // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
-  componentDidMount() {
-    this.getdbstockdata();
-
+  componentDidMount () {
+   this.getdbstockdata();
   }
 
   // START MODAL CODE
@@ -81,7 +85,8 @@ class App extends Component {
     console.log("event.target.value: ", event.target.value)
   };
 
-
+  // START SIGN IN/UP CODE
+  // ========================================================================
   signUpFormSubmit = event => {
     event.preventDefault()
     console.log("signUpFormSubmit: ")
@@ -105,23 +110,47 @@ class App extends Component {
     console.log("event.target.value: ", event.target.value)
     console.log("event.target.name: ", event.target.name)
     this.setState({ [event.target.name]: event.target.value }, () => {
-      console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
-      console.log("this.state.signupformlastname: ", this.state.signupformlastname)
-      console.log("this.state.signupformusername: ", this.state.signupformusername)
-      console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+    console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
+    console.log("this.state.signupformlastname: ", this.state.signupformlastname)
+    console.log("this.state.signupformusername: ", this.state.signupformusername)
+    console.log("this.state.signupformpassword: ", this.state.signupformpassword)
     });
   }
 
+  clicksignup = () => {
 
+    if(!this.state.displaysignup){
+      this.setState({displaysignup: true}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }else{
+      this.setState({displaysignup: false}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }
+  }
 
+  clicksignIN = () => {
+    if(!this.state.displaysignin){
+      this.setState({displaysignin: true}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }else{
+      this.setState({displaysignin: false}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }
+
+  }
+  // ========================================================================
+  // END SIGN UP/IN CODE
+
+  // GETS DATA FROM API, SETS stockInfo_keys
   searchTicker = query => {
     console.log("searchTicker")
     API.search(query)
       .then((res) => {
-        console.log("Object.keys(res.data.data[0]): ", Object.keys(res.data.data[0]));
-        console.log("stock xchange short: ", res.data.data[0].stock_exchange_short);
         stock_ticker[res.data.data[0].symbol] = res.data.data[0]
-        this.setState({ price: res.data.data[0].price })
         this.setState({ stocksInfo: stock_ticker }, () => {
           stocksInfo_keys = Object.keys(this.state.stocksInfo)
           this.setState({ stocksInfo_keys: stocksInfo_keys }, () => {
@@ -146,7 +175,6 @@ class App extends Component {
         });
 
       })
-      // .then(res => this.setState({ price: res.data }))
       .catch(err => console.log(err));
   };
 
@@ -171,6 +199,7 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
+      this.setState({ dataLength: Object.keys(res.data).length })
       console.log("This is dbstocks:", dbstocks)
 
     });
@@ -198,10 +227,16 @@ class App extends Component {
         console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
-
+    
+  updatedbstockdata = event => {
+    API.updateStocks().then((res) => {
+      console.log("res.data: ", res.data)
+      this.setState({ dbstocks: res.data })
+      console.log("this is updated dbstocks: ", this.state.dbstocks)
+    });
   }
 
-  // RUNS THE SUBMIT BUTTON, ONCLICK SETSTATE TICKER = TO WHAT'S IN THE SEARCH BAR
+  // RUNS THE SUBMIT BUTTON, ONCLICK setState search_ticker = state.ticker
   handleFormSubmit = event => {
     event.preventDefault();
     console.log("Clicked Submit")
@@ -209,18 +244,16 @@ class App extends Component {
     this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
     })
+    
     event.value = "";
   };
+  
+/* ============================================================================== */ 
+/*                      RENDER                                                    */
+/* ============================================================================== */  
 
-  // componentDidUpdate(prevState) {
-  //     // Typical usage (don't forget to compare props):
-  //     if (this.state.ticker !== prevState.ticker) {
-  //       this.getdbstockdata();
-  //     }
-  //   }
-  // Map over this.state.friends and render a FriendCard component for each friend object
-  render() {
-
+render() {
+    
     return (
 
       <Wrapper >
@@ -255,6 +288,7 @@ class App extends Component {
             handleInputChange={this.handleInputChange}
             handleFormSubmit={this.handleFormSubmit}
             getdbstockdata={this.getdbstockdata}
+            refresh={this.updatedbstockdata}
             getUserId={this.getUserId}
             logout={this.logout}
           />
@@ -265,20 +299,25 @@ class App extends Component {
             <div className='col-12'>
               <div className='card-deck'>
 
-                {this.state.dbstocks.map((data, idx) => (
-                  <DBdata
+                {this.state.dbstocks.map((data,idx) => (
+                  <StockCardHolder
+                    stocksInfo_keys={this.state.stocksInfo_keys}
                     data={data}
+                    key={data.id}
+                    getdbstockdata={() => this.getdbstockdata()}
                     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
                   />
                 ))}
 
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
-                    <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
-                    <br />
-                    <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
-                    <span>Stock Xchange: {this.state.clickedIndex.stock_exchange_short}</span>
-                    <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                      <br />
+                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                      <br/>
+                      <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+
                   </Modal>
                 ) : null}
               </div>
