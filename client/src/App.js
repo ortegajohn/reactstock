@@ -6,6 +6,7 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockCardHolder from "./components/StockCardHolder";
+import SignUp from "./components/SignUp";
 // import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
 // import SignUp from "./components/SignUp";
@@ -68,12 +69,7 @@ class App extends Component {
 
   // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
   componentDidMount () {
-<<<<<<< HEAD
    this.getdbstockdata();
-=======
-   this.getdbstockdata(); 
-  
->>>>>>> f973c47927f87c823ae0f9c0a6fd557469d8c5f1
   }
 
   // START MODAL CODE
@@ -186,12 +182,8 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
-<<<<<<< HEAD
-      console.log("this is dbstocks: ", this.state.dbstocks)
-=======
       this.setState({ dataLength: Object.keys(res.data).length })
       console.log("This is dbstocks:", dbstocks)
->>>>>>> f973c47927f87c823ae0f9c0a6fd557469d8c5f1
     });
   }
 
@@ -214,13 +206,10 @@ class App extends Component {
     
     event.value = "";
   };
-<<<<<<< HEAD
   
 /* ============================================================================== */ 
 /*                      RENDER                                                    */
 /* ============================================================================== */  
-=======
->>>>>>> f973c47927f87c823ae0f9c0a6fd557469d8c5f1
 
 render() {
     
