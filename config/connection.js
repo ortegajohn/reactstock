@@ -20,7 +20,8 @@ if(process.env.JAWSDB_URL) {
     host: process.env.USER_HOST,
     user: process.env.USER_NAME,
     password: process.env.USER_PASS,
-    database: process.env.USER_DB
+    database: process.env.USER_DB,
+    port: process.env.USER_PORT
   })
 }
 

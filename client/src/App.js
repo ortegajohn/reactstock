@@ -1,166 +1,329 @@
 import React, { Component } from "react";
-import FriendCard from "./components/FriendCard";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+// import FriendCard from "./components/FriendCard";
+// import Test from "./components/Test";
 import Wrapper from "./components/Wrapper";
 // import Title from "./components/Title";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
-import StockTable from "./components/StockTable";
-import friends from "./friends.json";
+import StockCardHolder from "./components/StockCardHolder";
+import SignUp from "./components/SignUp";
+// import StockTable from "./components/StockTable";
+// import friends from "./friends.json";
+// import SignUp from "./components/SignUp";
+// import SignIn from "./components/SignIn";
+import Modal from "./components/Modal/Modal"
+import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
+import axios from "axios";
 
-
-
-let score = 0;
-let topscore = 0;
+/* ========================================================================
+                              GLOBAL VARIABLES
+   ======================================================================== */
 let ticker = "";
 let price = 0;
+let stocksInfo = {}
+let stock_ticker = {}
+let search_ticker = ""
+// let percentChange = null;
+let stocksInfo_keys = []
+let dbstocks = []
+// let cardBG = ""
+let signupformfirstname = ""
+let signupformlastname = ""
+let signupformusername = ""
+let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
-class App extends Component {
-  // Setting this.state.friends to the friends json array
+let displaysignup = false
+let displaysignin = false
+let isUserLoggedIn = false
+let dom_signup = ""
+let dom_signin = ""
 
+class App extends Component {
+
+  /* ========================================================================
+                                SETTING STATE
+     ======================================================================== */
   state = {
-    friends: friends,
-    score: score,
-    topscore: topscore,
-    guessmessage: guessmessage,
+    showModal: false,
     ticker: ticker,
-    price:price
+    price: price,
+    stocksInfo: stocksInfo,
+    search_ticker: search_ticker,
+    stocksInfo_keys: stocksInfo_keys,
+    // percentChange: percentChange,
+    // cardBG: cardBG,
+    dbstocks: dbstocks,
+    signupformfirstname,
+    signupformlastname,
+    signupformusername,
+    signupformpassword,
+    displaysignup: displaysignup,
+    displaysignin: displaysignin,
+    isUserLoggedIn:isUserLoggedIn
   };
 
+  /* ========================================================================
+                              FUNCTIONS
+     ======================================================================== */
+
+  // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
+  componentDidMount () {
+   this.getdbstockdata();
+  }
+
+  // START MODAL CODE
+  // Modal Show and Close functions:
+  handleShowMessageClick = (idx) => this.setState({ showModal: true, clickedIndex: idx })
+  handleCloseModal = () => this.setState({ showModal: false })
+  // END MODAL CODE
+
+  // TRACKS WHAT GOES INTO THE SEARCH BAR
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
-    console.log("event.target.value: ",event.target.value)
+    console.log("event.target.value: ", event.target.value)
   };
 
+  // START SIGN IN/UP CODE
+  // ========================================================================
+  signUpFormSubmit = event => {
+    event.preventDefault()
+    console.log("signUpFormSubmit: ")
+    let formdata = {
+      firstname: this.state.signupformfirstname,
+      lastname: this.state.signupformlastname,
+      username: this.state.signupformusername,
+      password: this.state.signupformpassword
+    }
+    API.sendSignUpForm(formdata)
+
+  };
+
+  signINFormSubmit = event => {
+    event.preventDefault()
+    console.log("signINFormSubmit")
+
+  }
+
+  handleFormInputChange = event => {
+    console.log("event.target.value: ", event.target.value)
+    console.log("event.target.name: ", event.target.name)
+    this.setState({ [event.target.name]: event.target.value }, () => {
+    console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
+    console.log("this.state.signupformlastname: ", this.state.signupformlastname)
+    console.log("this.state.signupformusername: ", this.state.signupformusername)
+    console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+    });
+  }
+
+  clicksignup = () => {
+
+    if(!this.state.displaysignup){
+      this.setState({displaysignup: true}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }else{
+      this.setState({displaysignup: false}, () =>{
+        console.log("this.state.displaysignup: ",this.state.displaysignup)
+      })
+    }
+  }
+
+  clicksignIN = () => {
+    if(!this.state.displaysignin){
+      this.setState({displaysignin: true}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }else{
+      this.setState({displaysignin: false}, () =>{
+        console.log("this.state.displaysignin: ",this.state.displaysignin)
+      })
+    }
+
+  }
+  // ========================================================================
+  // END SIGN UP/IN CODE
+
+  // GETS DATA FROM API, SETS stockInfo_keys
   searchTicker = query => {
     console.log("searchTicker")
     API.search(query)
-    .then((res) => {
-      console.log("res: ", res)
-      console.log("res.data.data[0].price: ", res.data.data[0].price)
-      console.log("this.state.price: ", this.state.price)
-      this.setState({price:res.data.data[0].price})
+      .then((res) => {
+        stock_ticker[res.data.data[0].symbol] = res.data.data[0]
+        this.setState({ stocksInfo: stock_ticker }, () => {
+          stocksInfo_keys = Object.keys(this.state.stocksInfo)
+          this.setState({ stocksInfo_keys: stocksInfo_keys }, () => {
+            console.log("stocksInfo_keys: ", stocksInfo_keys)
+          });
+        })
 
-    })
-      // .then(res => this.setState({ price: res.data }))
+        var test = {
+          ticker: this.state.ticker,
+          price: res.data.data[0].price,
+          name: res.data.data[0].name,
+          open: res.data.data[0].price_open,
+          percentChange: res.data.data[0].change_pct,
+          dayHigh: res.data.data[0].day_high,
+          dayLow: res.data.data[0].day_low,
+          marketCap: res.data.data[0].market_cap,
+          avgVol: res.data.data[0].volume_avg
+        }
+
+        API.savestock(test).then((res) => {
+          console.log("res: ", res)
+        });
+
+      })
       .catch(err => console.log(err));
   };
 
-  // handleFormSubmit = event =>{
-  //   event.preventDefault()
-  //   console.log("Clicked Submit")
-  // }
+  logout =  event => {
+    event.preventDefault();
+    API.logout().then((res) => {
+      console.log(" logout res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
 
+  getUserId = event => {
+    event.preventDefault();
+    console.log("Start getUserId")
+    API.getUseId().then((res) => {
+      console.log(" getUseId res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+  // GET DATA FROM THE DB
+  getdbstockdata = event => {
+    API.getstocks().then((res) => {
+      console.log("res.data: ", res.data)
+      this.setState({ dbstocks: res.data })
+      this.setState({ dataLength: Object.keys(res.data).length })
+      console.log("This is dbstocks:", dbstocks)
+
+    });
+  }
+  displaysignup_function = () => {
+
+    if (!this.state.displaysignup) {
+      this.setState({ displaysignup: true }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    } else {
+      this.setState({ displaysignup: false }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    }
+  }
+
+  clicksignIN = () => {
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    } else {
+      this.setState({ displaysignin: false }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    }
+    
+  updatedbstockdata = event => {
+    API.updateStocks().then((res) => {
+      console.log("res.data: ", res.data)
+      this.setState({ dbstocks: res.data })
+      console.log("this is updated dbstocks: ", this.state.dbstocks)
+    });
+  }
+
+  // RUNS THE SUBMIT BUTTON, ONCLICK setState search_ticker = state.ticker
   handleFormSubmit = event => {
     event.preventDefault();
     console.log("Clicked Submit")
-    this.searchTicker(this.state.ticker);
+    // https://stackoverflow.com/questions/30782948/why-calling-react-setstate-method-doesnt-mutate-the-state-immediately
+    this.setState({ search_ticker: this.state.ticker }, () => {
+      this.searchTicker(this.state.search_ticker);
+    })
+    
+    event.value = "";
   };
+  
+/* ============================================================================== */ 
+/*                      RENDER                                                    */
+/* ============================================================================== */  
 
-
-
-  youloose = () => {
-    if (this.state.score > this.state.topscore) {
-      this.setState({ topscore: this.state.score });
-    }
-
-    friends.forEach(element => {
-      element.count = 0;
-    });
-    this.setState({ score: 0 });
-  };
-
-  handleIncrement = id => {
-    console.log("id: ", id)
-    let wincount = 0;
-
-    friends.forEach(element => {
-      if (element.id === id) {
-        if (element.count === 0) {
-          console.log("element.id: ", element.id)
-
-          element.count = 1;
-          this.setState({ score: this.state.score + 1 });
-          this.setState({ guessmessage: "You guessed correctly!" });
-
-
-        } else if (element.count > 0) {
-          console.log("YOU LOOSE")
-          this.setState({ guessmessage: "You guessed incorrectly!" });
-          this.youloose()
-        };
-      };
-      if(element.count === 1){
-        wincount += 1;
-      }
-      if(wincount === friends.length){
-        this.setState({ guessmessage: "YOU WIN!" });
-      }
-
-
-    });
-
-    this.state.friends.sort(() => Math.random() - 0.5)
-
-  };
-
-
-
-
-
-  // handleIncrement = function() {
-  //   this.setState({ score: this.state.score + 1 });
-  //   console.log("this: ",this)
-  // };
-
-  // removeFriend = id => {
-  //   // Filter this.state.friends for friends with an id not equal to the id being removed
-  //   const friends = this.state.friends.filter(friend => friend.id !== id);
-  //   // Set this.state.friends equal to the new friends array
-  //   this.setState({ friends });
-  // };
-
-  // Map over this.state.friends and render a FriendCard component for each friend object
-  render() {
+render() {
+    
     return (
+
       <Wrapper >
-        <Nav></Nav>
-        <SearchBar
-        handleInputChange={this.handleInputChange}
-        handleFormSubmit={this.handleFormSubmit}
-        />
-         <StockTable
-          ticker={this.ticker}
-          price={this.state.price}
-          
-         />
+
+        <div>
+          <Nav
+            displaysignup_function={this.displaysignup_function}
+            displaysignup={this.state.displaysignup}
+            isUserLoggedIn={this.state.isUserLoggedIn}
+          />
 
 
-        
-          {/* <Title>
-          <div>Clicky Game</div>
-            <div> {this.state.guessmessage}</div>
-            <div>Score: {this.state.score} | Top Score:{this.state.topscore} </div> */}
+          {/* <SignUp
+            handleFormInputChange={this.handleFormInputChange}
+            signUpFormSubmit={this.signUpFormSubmit}
+          /> */}
+          <Router>
+            <div>
+              <Route 
+              path="/signup"
+              // exact  component={SignUp} 
+              // https://tylermcginnis.com/react-router-pass-props-to-components/
+              render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              />
+              
+              <Route exact path="/signin" component={SignIn} />
+            </div>
+          </Router>
 
-            {/* <ul>Clicky Game</ul>            
-            <ul> {this.state.guessmessage}</ul>
-            <ul>Score: {this.state.score} | Top Score:{this.state.topscore} </ul> */}
-          {/* </Title> */}
 
+          <SearchBar
+            handleInputChange={this.handleInputChange}
+            handleFormSubmit={this.handleFormSubmit}
+            getdbstockdata={this.getdbstockdata}
+            refresh={this.updatedbstockdata}
+            getUserId={this.getUserId}
+            logout={this.logout}
+          />
+        </div>
 
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+              <div className='card-deck'>
 
-          
-          {this.state.friends.map(friend => (
-            <FriendCard
-              handleIncrement={this.handleIncrement}
-              id={friend.id}
-              key={friend.id}
-              name={friend.name}
-              image={friend.image}
-            />
+                {this.state.dbstocks.map((data,idx) => (
+                  <StockCardHolder
+                    stocksInfo_keys={this.state.stocksInfo_keys}
+                    data={data}
+                    key={data.id}
+                    getdbstockdata={() => this.getdbstockdata()}
+                    handleShowMessageClick={() => this.handleShowMessageClick(idx)}
+                  />
+                ))}
 
-          ))}
-     
+                {this.state.showModal ? (
+                  <Modal onClose={this.handleCloseModal}>
+                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
+                      <br />
+                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                      <br/>
+                      <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+
+                  </Modal>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </div>
       </Wrapper>
     );
   }
