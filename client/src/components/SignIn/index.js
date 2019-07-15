@@ -34,6 +34,7 @@ class UserSignIn extends Component {
               API.sendSignInForm(formdata).then(res => {
                 this.props.history.push(`/`)
               })
+              console.log("PLPLPLPLPLPL", this.props.isUserLoggedIn)
         
           }
     render() {

@@ -4,14 +4,22 @@ import "./style.css";
 let signup_dom = ""
 
 function Nav(props) {
-    // if (!props.displaysignup) {
-    //     signup_dom =
-    //         <li className="nav-item">
-    //             <a href="/signup" className="nav-link">Sign Up</a>
-    //         </li>
-    // }else{
-    //     signup_dom = ""
-    // }
+    if (!props.isUserLoggedIn) {
+        signup_dom =
+            <div>
+                <li className="nav-item">
+                    <a href="/signin" className="nav-link">Sign In</a>
+                </li>
+                <li className="nav-item">
+                    <a href="/signup" className="nav-link">Sign Up</a>
+                </li>
+            </div>
+    } else {
+        signup_dom =
+            <li className="nav-item">
+                <a href="/logout" className="nav-link">Logout</a>
+            </li>
+    }
 
 
 
@@ -24,16 +32,17 @@ function Nav(props) {
             </button>
             <div className="collapse navbar-collapse" id="navbar">
                 <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a href="/logout" className="nav-link">Logout</a>
-                    </li>
-                    <li className="nav-item">
+                    </li> */}
+                    {/* <li className="nav-item">
                         <a href="/signin" className="nav-link">Sign In</a>
                     </li>
-                    {/* {signup_dom} */}
                     <li className="nav-item">
                         <a href="/signup" className="nav-link">Sign Up</a>
-                    </li>
+                    </li> */}
+                    {signup_dom}
+
                 </ul>
             </div>
         </div>
