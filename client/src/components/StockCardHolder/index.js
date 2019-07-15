@@ -1,30 +1,31 @@
 import React, { Component } from "react";
 import "./style.css";
-import DBdataBtn from "../DBdataBtn/DBdataBtn"
+import StockCards from "../StockCards"
 
-class DBdata extends Component {
+class StockCardHolder extends Component {
   
   componentDidUpdate(prevProps, prevState) {
     // Typical usage (don't forget to compare props):
+    
     if (this.props.stocksInfo_keys !== prevProps.stocksInfo_keys) {
-      console.log("preparing to fire!");
       this.props.getdbstockdata();
-      console.log("Firing getdbstockdata!");
     }
   }
+
+  
   render() {
     
     return (
-      <DBdataBtn 
+      <StockCards
             stocksInfo_keys = {this.props.stocksInfo_keys}
             data={this.props.data}
             getdbstocksdata={this.props.getdbstockdata} 
             handleShowMessageClick={this.props.handleShowMessageClick}
             >
-      </DBdataBtn>
+      </StockCards>
 
     );
   }
 }
 
-export default DBdata;
+export default StockCardHolder;

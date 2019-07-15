@@ -44,6 +44,11 @@ module.exports = {
       // console.log("dbStocks: ", dbStocks)
     });
   },
+  updateStocks: function (req, res) {
+  db.Stocks.findOneAndUpdate({ _id: req.params.id }, req.body)
+  .then(dbStocks => res.json(dbStocks))
+  .catch(err => res.status(422).json(err));
+  },
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);
