@@ -45,9 +45,11 @@ module.exports = {
     });
   },
   updateStocks: function (req, res) {
-  db.Stocks.findOneAndUpdate({ _id: req.params.id }, req.body)
-  .then(dbStocks => res.json(dbStocks))
-  .catch(err => res.status(422).json(err));
+    db.Stocks.update({ ticker: req.params.ticker }, req.body)
+    .then(function(
+      dbStocks
+    ) { res.json(dbStocks);
+    });
   },
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));

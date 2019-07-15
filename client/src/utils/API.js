@@ -20,7 +20,7 @@ export default {
   },
 
   updateStocks: function(req, res) {
-    return axios.get("/api/updateStocks", res)
+    return axios.put("/api/updateStocks", res)
   },
 
   sendSignUpForm: function(SignUpFormData){
