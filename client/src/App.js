@@ -34,6 +34,7 @@ let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false
 let displaysignin = false
+let isUserLoggedIn = false
 let dom_signup = ""
 let dom_signin = ""
 class App extends Component {
@@ -55,6 +56,7 @@ class App extends Component {
     signupformpassword,
     displaysignup: displaysignup,
     displaysignin: displaysignin,
+    isUserLoggedIn:isUserLoggedIn
   };
 
   /* ========================================================================
@@ -227,6 +229,7 @@ class App extends Component {
           <Nav
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
+            isUserLoggedIn={this.state.isUserLoggedIn}
           />
 
 
@@ -236,7 +239,13 @@ class App extends Component {
           /> */}
           <Router>
             <div>
-              <Route exact path="/signup" component={SignUp} />
+              <Route 
+              path="/signup"
+              // exact  component={SignUp} 
+              // https://tylermcginnis.com/react-router-pass-props-to-components/
+              render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              />
+              
               <Route exact path="/signin" component={SignIn} />
             </div>
           </Router>
