@@ -27,6 +27,6 @@ export default {
 
   sendSignINForm: function(SignINFormData){
     console.log("API.sendSignINForm SignINFormData", SignINFormData)
-    return axios.get("/signin", SignINFormData);
+    return axios.post("/signin", SignINFormData);
   }
 };

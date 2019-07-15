@@ -27,6 +27,8 @@ let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
 let signupformpassword = ""
+let signinformusername 
+let signinformpassword 
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false  
 let displaysignin = false 
@@ -49,6 +51,8 @@ class App extends Component {
     signupformlastname,
     signupformusername,
     signupformpassword,
+    signinformusername,
+    signinformpassword,
     displaysignup:displaysignup,
     displaysignin:displaysignin
   };
@@ -75,7 +79,7 @@ class App extends Component {
 
   signINFormSubmit = event =>{
     event.preventDefault()
-    console.log("signINFormSubmit: ")
+    console.log("signINFormSubmit: ", this.state.signinformusername)
     let formData = {
       username: this.state.signinformusername,
       password: this.state.signinformpassword
@@ -91,6 +95,8 @@ class App extends Component {
       console.log("this.state.signupformlastname: ", this.state.signupformlastname)
       console.log("this.state.signupformusername: ", this.state.signupformusername)
       console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+      console.log("this.state.signinformusername: ", this.state.signinformusername)
+      console.log("this.state.signinformusername: ", this.state.signinformpassword)
     });
   }
 

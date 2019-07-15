@@ -6,7 +6,7 @@ module.exports = {
             return next();
         } else {
             // return res.redirect('../client/components/SignIn');
-            return res.redirect('/');
+            return res.redirect('/signin');
         }
     },
 
