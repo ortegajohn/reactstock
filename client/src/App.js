@@ -136,6 +136,7 @@ class App extends Component {
       })
     }else{
       this.setState({displaysignin: false}, () =>{
+        this.getUserId();
         console.log("this.state.displaysignin: ",this.state.displaysignin)
       })
     }
@@ -190,6 +191,7 @@ class App extends Component {
     console.log("Start getUserId")
     API.getUseId().then((res) => {
       console.log(" getUseId res.data: ", res.data)
+      this.setState(res.data);
       // console.log(" getUseId res: ", Object.keys(res))
     })
   }
@@ -263,6 +265,7 @@ render() {
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
             isUserLoggedIn={this.state.isUserLoggedIn}
+            getUseId={this.state.getUseId}
           />
 
 
