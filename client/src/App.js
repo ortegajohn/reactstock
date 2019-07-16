@@ -7,11 +7,10 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockCardHolder from "./components/StockCardHolder";
-import SignUp from "./components/SignUp";
 // import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
-// import SignUp from "./components/SignUp";
-// import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
@@ -227,6 +226,7 @@ class App extends Component {
         console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
+  }
     
   updatedbstockdata = event => {
     API.updateStocks().then((res) => {
