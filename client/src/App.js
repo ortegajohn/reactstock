@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 // import FriendCard from "./components/FriendCard";
 // import Test from "./components/Test";
 import Wrapper from "./components/Wrapper";
@@ -14,6 +15,7 @@ import SignUp from "./components/SignUp";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
+import axios from "axios";
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -29,20 +31,18 @@ let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
 let signupformpassword = ""
-let displaysignup = false  
-let displaysignin = false 
-// let dom_signup = ""
-// let dom_signin = ""
-
-/* ========================================================================
-                              COMPONENT
-   ======================================================================== */
+let guessmessage = 'Click an image to begin!'
+let displaysignup = false
+let displaysignin = false
+let isUserLoggedIn = false
+let dom_signup = ""
+let dom_signin = ""
 
 class App extends Component {
 
-/* ========================================================================
-                              SETTING STATE
-   ======================================================================== */
+  /* ========================================================================
+                                SETTING STATE
+     ======================================================================== */
   state = {
     showModal: false,
     ticker: ticker,
@@ -55,8 +55,9 @@ class App extends Component {
     signupformlastname,
     signupformusername,
     signupformpassword,
-    displaysignup:displaysignup,
-    displaysignin:displaysignin
+    displaysignup: displaysignup,
+    displaysignin: displaysignin,
+    isUserLoggedIn:isUserLoggedIn
   };
 
   /* ========================================================================
@@ -70,8 +71,8 @@ class App extends Component {
 
   // START MODAL CODE
   // Modal Show and Close functions:
-  handleShowMessageClick = (idx) => this.setState({showModal: true, clickedIndex: idx})
-  handleCloseModal = () => this.setState({showModal: false})
+  handleShowMessageClick = (idx) => this.setState({ showModal: true, clickedIndex: idx })
+  handleCloseModal = () => this.setState({ showModal: false })
   // END MODAL CODE
 
   // TRACKS WHAT GOES INTO THE SEARCH BAR
@@ -86,8 +87,8 @@ class App extends Component {
     event.preventDefault()
     console.log("signUpFormSubmit: ")
     let formdata = {
-      firstname:this.state.signupformfirstname,
-      lastname:this.state.signupformlastname,
+      firstname: this.state.signupformfirstname,
+      lastname: this.state.signupformlastname,
       username: this.state.signupformusername,
       password: this.state.signupformpassword
     }
@@ -95,7 +96,7 @@ class App extends Component {
 
   };
 
-  signINFormSubmit = event =>{
+  signINFormSubmit = event => {
     event.preventDefault()
     console.log("signINFormSubmit")
 
@@ -164,7 +165,7 @@ class App extends Component {
           marketCap: res.data.data[0].market_cap,
           avgVol: res.data.data[0].volume_avg
         }
-        
+
         API.savestock(test).then((res) => {
           console.log("res: ", res)
         });
@@ -173,16 +174,55 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  logout =  event => {
+    event.preventDefault();
+    API.logout().then((res) => {
+      console.log(" logout res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+
+  getUserId = event => {
+    event.preventDefault();
+    console.log("Start getUserId")
+    API.getUseId().then((res) => {
+      console.log(" getUseId res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
   // GET DATA FROM THE DB
   getdbstockdata = event => {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
       console.log("This is dbstocks:", dbstocks)
+
     });
   }
+  displaysignup_function = () => {
 
-  // REFRESH THE STOCK CARDS WITH FRESH STOCK DATA
+    if (!this.state.displaysignup) {
+      this.setState({ displaysignup: true }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    } else {
+      this.setState({ displaysignup: false }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    }
+  }
+
+  clicksignIN = () => {
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    } else {
+      this.setState({ displaysignin: false }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    }
+    
   updatedbstockdata = event => {
     event.preventDefault();
     console.log("prevent deafult")
@@ -240,17 +280,38 @@ render() {
       <Wrapper >
 
         <div>
-          <Nav></Nav>
-          <SignUp
+          <Nav
+            displaysignup_function={this.displaysignup_function}
+            displaysignup={this.state.displaysignup}
+            isUserLoggedIn={this.state.isUserLoggedIn}
+          />
+
+
+          {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
-          />
+          /> */}
+          <Router>
+            <div>
+              <Route 
+              path="/signup"
+              // exact  component={SignUp} 
+              // https://tylermcginnis.com/react-router-pass-props-to-components/
+              render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              />
+              
+              <Route exact path="/signin" component={SignIn} />
+            </div>
+          </Router>
+
 
           <SearchBar
             handleInputChange={this.handleInputChange}
             handleFormSubmit={this.handleFormSubmit}
             getdbstockdata={this.getdbstockdata}
             refresh={this.updatedbstockdata}
+            getUserId={this.getUserId}
+            logout={this.logout}
           />
         </div>
 
@@ -278,7 +339,7 @@ render() {
                       <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
                       <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600}/>
                   </Modal>
-              ) : null}
+                ) : null}
               </div>
             </div>
           </div>

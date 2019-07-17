@@ -27,5 +27,17 @@ export default {
     console.log("API.sendSignUpForm SignUpFormData",SignUpFormData)
     return axios.post("/signup", SignUpFormData);
     // return axios.post("/api/signup", SignUpFormData);
+  },
+
+  sendSignInForm: function(SignInFormData){
+    console.log("API.sendSignUpForm SignUpFormData",SignInFormData)
+    return axios.post("/signin", SignInFormData);
+    // return axios.post("/api/signup", SignUpFormData);
+  },
+  getUseId: function(req, res){
+    return axios.get("/api/getuserid");
+  },
+  logout: function(){
+    return axios.get("/api/logout");
   }
 };
