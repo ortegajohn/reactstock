@@ -20,6 +20,7 @@ const SearchBar = props => {
             </button>
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.refresh}>
                 Refresh
+            </button>    
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.getUserId}>
                 get user id
             </button>
