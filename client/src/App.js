@@ -15,6 +15,7 @@ import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 import axios from "axios";
+import Flash from "./components/Flash";
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -38,6 +39,7 @@ let displaysignin = false
 let isUserLoggedIn = false
 let dom_signup = ""
 let dom_signin = ""
+
 
 class App extends Component {
 

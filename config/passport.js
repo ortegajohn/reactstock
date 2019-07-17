@@ -1,6 +1,8 @@
 const passport = require('passport');
+const app = require('express');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../models')
+const db = require('../models');
+const flash = require('connect-flash');
 const database = require('../db/database_connection');
 const {
     encryptPassword,
@@ -67,48 +69,52 @@ passport.use('local.signup', new LocalStrategy({
 
     const check = async () =>{
         if(!firstname || !lastname || !username || !password){
-            console.log({msg: 'Please enter all fields'});
+            req.flash(message,'Please enter all fields', 'fail') 
        } else {
             if(password.length < 6) {
-              console.log({ msg: 'Password must be at least 6 characters'});
+              req.flash({ msg: 'Password must be at least 6 characters'});
              }else{
                     database.query("SELECT * FROM iStock_users WHERE username = ?", [username]).then((req, res) => {
-                        //console.log('req: ', Object.keys(req));
-                        //console.log('res: ', req[0].username);
-                        console.log('req ', req.length);
-                        if(!req.lenght > 0){
-                            newUser.password = function operation(encryptPassword) {encryptPassword(password);}
-                                console.log('yo!:', newUser.password)
-                                database.query("INSERT INTO iStock_users SET ?", [newUser]).then(function(){
-                                    newUser.id = result.insertId;
-        
-                                    console.log(newUser);
-        
-                                    return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
-                                });
-                        } else {
-                            if(req[0].username) {
-                                console.log({ msg: 'User already exists'});
-                            } else {
-                                console.log('password: ', password);
-                                newUser.password = function operation(encryptPassword) {encryptPassword(password);}
-                                console.log('yo!:', newUser.password)
-                                database.query("INSERT INTO iStock_users SET ?", [newUser]).then(function(){
-                                    newUser.id = result.insertId;
-        
-                                    console.log(newUser);
-        
-                                    return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
-                                });
-        
-                                // newUser.id = result.insertId;
-        
-                                // console.log(newUser);
-        
-                                // return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
-                            } 
+                        const check2 = async () => {
+                            newUser.password = await encryptPassword(password);
+
+                            const result = await database.query("INSERT INTO iStock_users SET ?", [newUser]);
+
+                            newUser.id = result.insertId;
+
+                            console.log(newUser);
+
+                            return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
 
                         }
+                        check2 ();
+                        //console.log('req: ', Object.keys(req));
+                        //console.log('res: ', req[0].username);
+                        // console.log('req ', req.length);
+                        // if(!req.lenght > 0){
+                        //     // newUser.password = function operation(encryptPassword) {encryptPassword(password);}
+                        //     //     console.log('yo!1:', newUser.password)
+                        //     //     database.query("INSERT INTO iStock_users SET ?", [newUser]).then(function(){
+                        //     //         newUser.id = result.insertId;
+        
+                        //     //         console.log(newUser);
+        
+                        //     //         return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
+                        //     //     });
+                        // } else {
+                        //     if(req[0].username) {
+                        //         console.log({ msg: 'User already exists'});
+                        //     } else {
+                                
+        
+                        //         // newUser.id = result.insertId;
+        
+                        //         // console.log(newUser);
+        
+                        //         // return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
+                        //     } 
+
+                        // }
                             
                             
                         
