@@ -7,15 +7,18 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockCardHolder from "./components/StockCardHolder";
-import SignUp from "./components/SignUp";
 // import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
+
+import SignUp from "./components/SignUp";
+
 import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 import axios from "axios";
-import Flash from "./components/Flash";
+import Jumbotron from "./components/Jumbotron";
+
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -288,6 +291,9 @@ render() {
             </div>
           </Router>
 
+          <Jumbotron>
+            
+          </Jumbotron>
 
           <SearchBar
             handleInputChange={this.handleInputChange}
