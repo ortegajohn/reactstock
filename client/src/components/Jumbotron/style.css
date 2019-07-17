@@ -1,0 +1,8 @@
+.jumbotron {
+    background: url(../../images/Logo.jpg);
+    background-size:     cover;                     
+    background-repeat:   no-repeat;
+    background-position: center center;    
+    text-align: center;
+    color: red;
+}
