@@ -14,6 +14,7 @@ import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
+// import MiniChart from "./components/MiniChart";
 import axios from "axios";
 
 /* ========================================================================
@@ -169,9 +170,16 @@ class App extends Component {
           avgVol: res.data.data[0].volume_avg
         }
 
-        API.savestock(test).then((res) => {
-          console.log("res: ", res)
-        });
+        API.getUseId().then((res) => {
+          console.log(" getUseId res.data.userid: ", res.data.userid)
+          // console.log(" getUseId res: ", Object.keys(res))
+          test.user_id = res.data.userid
+          console.log("test.user_id = res.data.userid", test.user_id)
+          API.savestock(test).then((res) => {
+            console.log("res: ", res)
+          });
+        })
+        
 
       })
       .catch(err => console.log(err));
@@ -189,7 +197,7 @@ class App extends Component {
     event.preventDefault();
     console.log("Start getUserId")
     API.getUseId().then((res) => {
-      console.log(" getUseId res.data: ", res.data)
+      console.log(" getUseId res.data.userid: ", res.data.userid)
       // console.log(" getUseId res: ", Object.keys(res))
     })
   }
@@ -324,6 +332,7 @@ render() {
             </div>
           </div>
         </div>
+        {/* <MiniChart></MiniChart> */}
       </Wrapper>
     );
   }
