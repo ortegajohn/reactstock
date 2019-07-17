@@ -23,10 +23,8 @@ let price = 0;
 let stocksInfo = {}
 let stock_ticker = {}
 let search_ticker = ""
-// let percentChange = null;
 let stocksInfo_keys = []
 let dbstocks = []
-// let cardBG = ""
 let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
@@ -52,8 +50,6 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
-    // percentChange: percentChange,
-    // cardBG: cardBG,
     dbstocks: dbstocks,
     signupformfirstname,
     signupformlastname,
@@ -182,17 +178,43 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
-      this.setState({ dataLength: Object.keys(res.data).length })
       console.log("This is dbstocks:", dbstocks)
     });
   }
 
+  // REFRESH THE STOCK CARDS WITH FRESH STOCK DATA
   updatedbstockdata = event => {
-    API.updateStocks().then((res) => {
+    event.preventDefault();
+    console.log("prevent deafult")
+    API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
-      this.setState({ dbstocks: res.data })
-      console.log("this is updated dbstocks: ", this.state.dbstocks)
-    });
+      let updateTickers = [];
+      res.data.forEach(element => {
+        console.log("element.ticker: ", element.ticker)
+        updateTickers.push(element.ticker);
+      });
+      console.log("updateTickers: ", updateTickers);
+      updateTickers.forEach(element => {
+        console.log("This is element: ", element)
+        API.search(element)
+        .then((res) => {
+          console.log("res.data: ", res.data.data)
+          var test = {
+            ticker: this.state.ticker,
+            price: res.data.data[0].price,
+            name: res.data.data[0].name,
+            open: res.data.data[0].price_open,
+            percentChange: res.data.data[0].change_pct,
+            dayHigh: res.data.data[0].day_high,
+            dayLow: res.data.data[0].day_low,
+            marketCap: res.data.data[0].market_cap,
+            avgVol: res.data.data[0].volume_avg
+          }
+          console.log("this is test: ", test)
+          API.updateStocks(test);
+        })
+      })
+    })
   }
 
   // RUNS THE SUBMIT BUTTON, ONCLICK setState search_ticker = state.ticker
@@ -220,15 +242,15 @@ render() {
         <div>
           <Nav></Nav>
           <SignUp
-        handleFormInputChange={this.handleFormInputChange}
-        signUpFormSubmit={this.signUpFormSubmit}
-        />
+            handleFormInputChange={this.handleFormInputChange}
+            signUpFormSubmit={this.signUpFormSubmit}
+          />
 
           <SearchBar
-          handleInputChange={this.handleInputChange}
-          handleFormSubmit={this.handleFormSubmit}
-          getdbstockdata={this.getdbstockdata}
-          refresh={this.updatedbstockdata}
+            handleInputChange={this.handleInputChange}
+            handleFormSubmit={this.handleFormSubmit}
+            getdbstockdata={this.getdbstockdata}
+            refresh={this.updatedbstockdata}
           />
         </div>
 
@@ -254,7 +276,7 @@ render() {
                       <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
                       <br/>
                       <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
-                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
+                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600}/>
                   </Modal>
               ) : null}
               </div>
