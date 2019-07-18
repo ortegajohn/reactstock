@@ -21,7 +21,7 @@ function StockCards(props) {
               <br/>
               Price: {props.data.price}
               <br/>
-              % High: {props.data.percentChange} 
+              % Change: {props.data.percentChange} 
               <br/>
               Day High: {props.data.dayHigh}
       </div>
