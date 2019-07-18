@@ -46,22 +46,13 @@ module.exports = {
   },
   updateStocks: function (req, res) {
     console.log("req.body from updateStocks route: ", req.body)
-    db.Stocks.bulkCreate(
-    [
-      {ticker: req.body.ticker}
-    ],
-    {
-      updateOnDuplicate: true,
-    },
-    ).then(() => {
-      return db.Stocks.update(
-        {dayHigh: req.body.day_high},
+    db.Stocks.update(
+        {percentChange: req.body.percentChange},
         {where: {ticker: req.body.ticker}}
-      );
-    }).then(([affectedCount, affectedRows]) => {
+      ).then(([affectedCount, affectedRows]) => {
       return db.Stocks.findAll();
     }).then(dbstocks => {
-      console.log('this is dbstocks from updateStocks: ', dbstocks)
+      console.log('this is dbstocks from updateStocks: ', Object.keys(dbstocks))
     })
   },
 

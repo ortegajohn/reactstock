@@ -240,7 +240,7 @@ class App extends Component {
         .then((res) => {
           console.log("res.data: ", res.data.data)
           var test = {
-            ticker: this.state.ticker,
+            ticker: element,
             price: res.data.data[0].price,
             name: res.data.data[0].name,
             open: res.data.data[0].price_open,
@@ -286,11 +286,11 @@ render() {
             isUserLoggedIn={this.state.isUserLoggedIn}
           />
 
-
           {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
           /> */}
+          
           <Router>
             <div>
               <Route 
