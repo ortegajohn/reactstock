@@ -1,6 +1,6 @@
 .wrapper {
   padding-top: 50px;
-  background: #ECEFF1;
+  background-image:url(../../images/background1.jpg);
   height: 100%;
   display: flex;
   flex-flow: row wrap;
@@ -8,4 +8,5 @@
   justify-content: space-around;
   align-content: flex-start;
   overflow: auto;
+  
 }
