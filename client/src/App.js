@@ -16,6 +16,8 @@ import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 // import MiniChart from "./components/MiniChart";
 import axios from "axios";
+import Jumbotron from "./components/Jumbotron";
+
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -25,10 +27,8 @@ let price = 0;
 let stocksInfo = {}
 let stock_ticker = {}
 let search_ticker = ""
-// let percentChange = null;
 let stocksInfo_keys = []
 let dbstocks = []
-// let cardBG = ""
 let signupformfirstname = ""
 let signupformlastname = ""
 let signupformusername = ""
@@ -39,6 +39,7 @@ let displaysignin = false
 let isUserLoggedIn = false
 let dom_signup = ""
 let dom_signin = ""
+
 
 class App extends Component {
 
@@ -52,8 +53,6 @@ class App extends Component {
     stocksInfo: stocksInfo,
     search_ticker: search_ticker,
     stocksInfo_keys: stocksInfo_keys,
-    // percentChange: percentChange,
-    // cardBG: cardBG,
     dbstocks: dbstocks,
     signupformfirstname,
     signupformlastname,
@@ -137,6 +136,7 @@ class App extends Component {
       })
     }else{
       this.setState({displaysignin: false}, () =>{
+        this.getUserId();
         console.log("this.state.displaysignin: ",this.state.displaysignin)
       })
     }
@@ -197,7 +197,8 @@ class App extends Component {
     event.preventDefault();
     console.log("Start getUserId")
     API.getUseId().then((res) => {
-      console.log(" getUseId res.data.userid: ", res.data.userid)
+      console.log(" getUseId res.data: ", res.data)
+      this.setState(res.data);
       // console.log(" getUseId res: ", Object.keys(res))
     })
   }
@@ -206,7 +207,6 @@ class App extends Component {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
-      this.setState({ dataLength: Object.keys(res.data).length })
       console.log("This is dbstocks:", dbstocks)
 
     });
@@ -234,14 +234,41 @@ class App extends Component {
         console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
-  }
+  }  
+
     
   updatedbstockdata = event => {
-    API.updateStocks().then((res) => {
+    event.preventDefault();
+    console.log("prevent deafult")
+    API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
-      this.setState({ dbstocks: res.data })
-      console.log("this is updated dbstocks: ", this.state.dbstocks)
-    });
+      let updateTickers = [];
+      res.data.forEach(element => {
+        console.log("element.ticker: ", element.ticker)
+        updateTickers.push(element.ticker);
+      });
+      console.log("updateTickers: ", updateTickers);
+      updateTickers.forEach(element => {
+        console.log("This is element: ", element)
+        API.search(element)
+        .then((res) => {
+          console.log("res.data: ", res.data.data)
+          var test = {
+            ticker: this.state.ticker,
+            price: res.data.data[0].price,
+            name: res.data.data[0].name,
+            open: res.data.data[0].price_open,
+            percentChange: res.data.data[0].change_pct,
+            dayHigh: res.data.data[0].day_high,
+            dayLow: res.data.data[0].day_low,
+            marketCap: res.data.data[0].market_cap,
+            avgVol: res.data.data[0].volume_avg
+          }
+          console.log("this is test: ", test)
+          API.updateStocks(test);
+        })
+      })
+    })
   }
 
   // RUNS THE SUBMIT BUTTON, ONCLICK setState search_ticker = state.ticker
@@ -259,7 +286,7 @@ class App extends Component {
 /* ============================================================================== */ 
 /*                      RENDER                                                    */
 /* ============================================================================== */  
-
+  
 render() {
     
     return (
@@ -271,6 +298,7 @@ render() {
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
             isUserLoggedIn={this.state.isUserLoggedIn}
+            getUseId={this.state.getUseId}
           />
 
 
@@ -291,6 +319,9 @@ render() {
             </div>
           </Router>
 
+          <Jumbotron>
+            
+          </Jumbotron>
 
           <SearchBar
             handleInputChange={this.handleInputChange}
@@ -324,8 +355,7 @@ render() {
                       <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
                       <br/>
                       <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
-                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} />
-
+                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600}/>
                   </Modal>
                 ) : null}
               </div>

@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const booksController = require("../../controllers/stocksController");
+const stocksController = require("../../controllers/stocksController");
 
 router
 .route("/")
-.get(booksController.updateStocks);
+.put(stocksController.updateStocks);
 
 module.exports = router;
