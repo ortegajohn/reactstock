@@ -69,22 +69,48 @@ module.exports = {
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);
-    console.log("Keys req.user: ", Object.keys(req.user));
-    console.log("req.user: ", req.user.id);
-    db.Stocks.findAll({
+    // console.log("Keys req.user: ", Object.keys(req.user));
+    console.log("req.user: ", typeof req.user);
 
-      where: sequelize.where(
-        sequelize.literal('user_id'),
-        '=',
-        req.user.id
-      )
-    }).then(function (dbStocks,err) {
-      if(err){
-        console.log("err: ", err)
-      }
-      res.json(dbStocks);
-      // console.log("dbStocks: ", dbStocks)
-    });
+    if(req.user == undefined){
+      db.Stocks.findAll({
+
+        // where: sequelize.where(
+        //   sequelize.literal('user_id'),
+        //   '=',
+        //   req.user.id
+        // )
+      }).then(function (dbStocks,err) {
+        if(err){
+          console.log("err: ", err)
+        }
+        res.json(dbStocks);
+        // console.log("dbStocks: ", dbStocks)
+      });
+
+
+
+    }
+    if(req.user != undefined){
+      db.Stocks.findAll({
+
+        where: sequelize.where(
+          sequelize.literal('user_id'),
+          '=',
+          req.user.id
+        )
+      }).then(function (dbStocks,err) {
+        if(err){
+          console.log("err: ", err)
+        }
+        res.json(dbStocks);
+        // console.log("dbStocks: ", dbStocks)
+      });
+
+    }
+
+
+
   },
   signup:function(req, res) {
     console.log("stocksController.signup:function(req.body: ", req.body)
