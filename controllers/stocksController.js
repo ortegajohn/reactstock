@@ -47,15 +47,25 @@ module.exports = {
   updateStocks: function (req, res) {
     console.log("req.body from updateStocks route: ", req.body)
     db.Stocks.update(
-        {percentChange: req.body.percentChange},
-        {where: {ticker: req.body.ticker}}
+        {
+          price: req.body.price,
+          open: req.body.open,
+          percentChange: req.body.percentChange,
+          dayHigh: req.body.dayHigh,
+          dayLow: req.body.dayLow,
+          marketCap: req.body.marketCap,
+          avgVol: req.body.avgVol
+        },
+        {
+          where: {ticker: req.body.ticker}
+        }
       ).then(([affectedCount, affectedRows]) => {
-      return db.Stocks.findAll();
-    }).then(dbstocks => {
-      console.log('this is dbstocks from updateStocks: ', Object.keys(dbstocks))
-    })
+        return db.Stocks.findAll();
+      }).then(dbstocks => {
+        console.log('this is dbstocks from updateStocks: ', Object.keys(dbstocks))
+      })
   },
-
+  
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);

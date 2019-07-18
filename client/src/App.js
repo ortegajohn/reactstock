@@ -342,11 +342,14 @@ render() {
 
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
-                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}</span>
-                      <br />
-                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}</span>
+                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}  |  Name: {this.state.dbstocks[this.state.clickedIndex].name}</span>
                       <br/>
-                      <span>Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}   |   Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                      <br/>
+                      <span>Open: {this.state.dbstocks[this.state.clickedIndex].open}   |   Day Low: {this.state.dbstocks[this.state.clickedIndex].dayLow}</span>
+                      <br/>
+                      <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
+                      <br/>
                       <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600}/>
                   </Modal>
                 ) : null}
