@@ -5,12 +5,14 @@ import "./style.css";
 
 function Jumbotron({ children }) {
   return (
+    
     <div
-      style={{ height: 300, clear: "both", paddingTop: 120, textAlign: "center"}}
+      style={{ height: 300, clear: "both", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundImage: `url(${Background})`}}
       className="jumbotron" 
     >
       {children}
     </div>
+    
   );
 }
 

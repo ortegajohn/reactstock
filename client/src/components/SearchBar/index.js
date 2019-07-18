@@ -3,6 +3,7 @@ import "./style.css";
 
 const SearchBar = props => {
     return (
+        <div className="searchDiv">
         <form>
             <div className="form-group">
                 <label className="StockSearch"><h3>Search For Stock</h3></label>
@@ -30,6 +31,7 @@ const SearchBar = props => {
             </button>
             
         </form>
+        </div>
     )
  }
 
