@@ -73,11 +73,11 @@ module.exports = {
     console.log("req.user: ", req.user.id);
     db.Stocks.findAll({
 
-      where: sequelize.where(
-        sequelize.literal('user_id'),
-        '=',
-        req.user.id
-      )
+      // where: sequelize.where(
+      //   sequelize.literal('user_id'),
+      //   '=',
+      //   req.user.id
+      // )
     }).then(function (dbStocks,err) {
       if(err){
         console.log("err: ", err)
