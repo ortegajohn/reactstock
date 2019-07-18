@@ -14,7 +14,6 @@ import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
-// import MiniChart from "./components/MiniChart";
 import axios from "axios";
 import Jumbotron from "./components/Jumbotron";
 
@@ -170,16 +169,9 @@ class App extends Component {
           avgVol: res.data.data[0].volume_avg
         }
 
-        API.getUseId().then((res) => {
-          console.log(" getUseId res.data.userid: ", res.data.userid)
-          // console.log(" getUseId res: ", Object.keys(res))
-          test.user_id = res.data.userid
-          console.log("test.user_id = res.data.userid", test.user_id)
-          API.savestock(test).then((res) => {
-            console.log("res: ", res)
-          });
-        })
-        
+        API.savestock(test).then((res) => {
+          console.log("res: ", res)
+        });
 
       })
       .catch(err => console.log(err));
@@ -267,7 +259,6 @@ class App extends Component {
           console.log("this is test: ", test)
           API.updateStocks(test);
           this.getdbstockdata();
-
         })
       })
     })
@@ -281,8 +272,6 @@ class App extends Component {
     this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
     })
-    
-    this.getdbstockdata()
     
     event.value = "";
   };
@@ -366,7 +355,6 @@ render() {
             </div>
           </div>
         </div>
-        {/* <MiniChart></MiniChart> */}
       </Wrapper>
     );
   }
