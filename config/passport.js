@@ -69,10 +69,10 @@ passport.use('local.signup', new LocalStrategy({
 
     const check = async () =>{
         if(!firstname || !lastname || !username || !password){
-            req.flash(message,'Please enter all fields', 'fail') 
+            console.log(message,'Please enter all fields', 'fail') 
        } else {
             if(password.length < 6) {
-              req.flash({ msg: 'Password must be at least 6 characters'});
+              console.log({ msg: 'Password must be at least 6 characters'});
              }else{
                     database.query("SELECT * FROM iStock_users WHERE username = ?", [username]).then((req, res) => {
                         const check2 = async () => {
@@ -84,7 +84,7 @@ passport.use('local.signup', new LocalStrategy({
 
                             console.log(newUser);
 
-                            return done(null, newUser, req.flash('success', 'Welcome user: ', newUser.username));
+                            return done(null, newUser, console.log('success', 'Welcome user: ', newUser.username));
 
                         }
                         check2 ();

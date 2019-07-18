@@ -5,7 +5,7 @@
     "database": "istock_db",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3307
+    "port": 3306
   },
   "test": {
     "username": "root",
@@ -16,10 +16,10 @@
     "logging": false
   },
   "production": {
-    "username": "pqks3fbu1rbrezux",
-    "password": "wa6acr2zj591tcg5",
-    "database": "tvpmjxam28p9sez3",
-    "host": "wvulqmhjj9tbtc1w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "username": "slpeudnfuc3doowb",
+    "password": "v41rrcszely3x117",
+    "database": "uev41qtcfklos2bf",
+    "host": "gtizpe105piw2gfq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 }

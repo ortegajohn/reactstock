@@ -45,26 +45,12 @@ module.exports = {
     });
   },
   updateStocks: function (req, res) {
-    console.log("req.body from updateStocks route: ", req.body)
-    db.Stocks.bulkCreate(
-    [
-      {ticker: req.body.ticker}
-    ],
-    {
-      updateOnDuplicate: true,
-    },
-    ).then(() => {
-      return db.Stocks.update(
-        {dayHigh: req.body.day_high},
-        {where: {ticker: req.body.ticker}}
-      );
-    }).then(([affectedCount, affectedRows]) => {
-      return db.Stocks.findAll();
-    }).then(dbstocks => {
-      console.log('this is dbstocks from updateStocks: ', dbstocks)
-    })
+    db.Stocks.update({ ticker: req.params.ticker }, req.body)
+    .then(function(
+      dbStocks
+    ) { res.json(dbStocks);
+    });
   },
-
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);
