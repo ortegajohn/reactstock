@@ -280,6 +280,8 @@ class App extends Component {
       this.searchTicker(this.state.search_ticker);
     })
     
+    this.getdbstockdata()
+    
     event.value = "";
   };
   
