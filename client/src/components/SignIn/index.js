@@ -57,6 +57,7 @@ class UserSignIn extends Component {
                                     <a href="./SignUp" className="btn btn-primary">
                                         Go to sign up
                                     </a>
+                                    
                                     <button onClick={this.signINFormSubmit} className="btn btn-success" id="btn_submit_signin">
                                         Submit
                                     </button>
