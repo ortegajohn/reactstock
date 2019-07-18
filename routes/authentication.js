@@ -12,6 +12,7 @@ expressRouter.get('/signup', isNotLoggedIn, (req, res) => {
     console.log("expressRouter.get Object.keys(req): ", Object.keys(req));
     console.log("expressRouter.get req.body: ",req.body)
     // res.send('hello world')
+    res.redirect('/signup')
 });
 
 
@@ -29,6 +30,7 @@ expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup
 expressRouter.get('/signin', isNotLoggedIn, (req, res) => {
     // res.render('auth/signin');
     // res.send('hello world')
+    res.redirect('/signin')
 });
 
 expressRouter.post('/signin', isNotLoggedIn, passport.authenticate('local.signin', {
