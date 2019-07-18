@@ -97,9 +97,11 @@ class SignUp extends React.Component {
                                     <a href="./SignIn" className="btn btn-primary">
                                         Go to sign in
                                     </a>
+                                   
                                         <button onClick={this.signUpFormSubmit} className="btn btn-success" id="btn_submit_signup">
                                             Submit
                                         </button>
+                                    
                                     {/* <a href="/" className="btn btn-success" onClick={this.signUpFormSubmit}>
                                     Submit Link
                                     </a> */}

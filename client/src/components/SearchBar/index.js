@@ -3,6 +3,7 @@ import "./style.css";
 
 const SearchBar = props => {
     return (
+        <div className="searchDiv">
         <form>
             <div className="form-group">
                 <label className="StockSearch"><h3>Search For Stock</h3></label>
@@ -13,15 +14,14 @@ const SearchBar = props => {
                     name="searchStock"
                     placeholder="Enter Stock's Ticker"
                     onChange={props.handleInputChange}
-                    refresh={props.updatedbstockdata}
                 />
             </div>
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.handleFormSubmit}>
                 Submit
             </button>
-            <button type="submit" className="submitBtn btn btn-primary" onClick={props.updatedbstockdata}>
+            <button type="submit" className="submitBtn btn btn-primary" onClick={props.refresh}>
                 Refresh
-            </button>
+            </button>    
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.getUserId}>
                 get user id
             </button>
@@ -30,6 +30,7 @@ const SearchBar = props => {
             </button>
             
         </form>
+        </div>
     )
  }
 
