@@ -258,6 +258,7 @@ class App extends Component {
           }
           console.log("this is test: ", test)
           API.updateStocks(test);
+          this.getdbstockdata();
         })
       })
     })
