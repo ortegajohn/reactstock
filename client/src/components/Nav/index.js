@@ -6,12 +6,12 @@ let signup_dom = ""
 function Nav(props) {
     if (!props.isUserLoggedIn) {
         signup_dom =
-            <div>
-                <li className="nav-item">
-                    <a href="/signin" className="nav-link">Sign In</a>
+            <div >
+                <li className="nav-item signIn navbar-nav mr-auto">
+                    <a href="/signin" className="nav-link navbar-nav ">Sign In</a>
                 </li>
-                <li className="nav-item">
-                    <a href="/signup" className="nav-link">Sign Up</a>
+                <li className="nav-item signUp navbar-nav mr-auto">
+                    <a href="/signup" className="nav-link navbar-nav ">Sign Up</a>
                 </li>
             </div>
     } else {

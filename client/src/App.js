@@ -7,14 +7,16 @@ import Wrapper from "./components/Wrapper";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockCardHolder from "./components/StockCardHolder";
-import SignUp from "./components/SignUp";
 // import StockTable from "./components/StockTable";
 // import friends from "./friends.json";
+import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 import axios from "axios";
+import Jumbotron from "./components/Jumbotron";
+
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -36,6 +38,7 @@ let displaysignin = false
 let isUserLoggedIn = false
 let dom_signup = ""
 let dom_signin = ""
+
 
 class App extends Component {
 
@@ -132,6 +135,7 @@ class App extends Component {
       })
     }else{
       this.setState({displaysignin: false}, () =>{
+        this.getUserId();
         console.log("this.state.displaysignin: ",this.state.displaysignin)
       })
     }
@@ -186,6 +190,7 @@ class App extends Component {
     console.log("Start getUserId")
     API.getUseId().then((res) => {
       console.log(" getUseId res.data: ", res.data)
+      this.setState(res.data);
       // console.log(" getUseId res: ", Object.keys(res))
     })
   }
@@ -222,6 +227,7 @@ class App extends Component {
       })
     }
   }  
+
     
   updatedbstockdata = event => {
     event.preventDefault();
@@ -272,7 +278,7 @@ class App extends Component {
 /* ============================================================================== */ 
 /*                      RENDER                                                    */
 /* ============================================================================== */  
-
+  
 render() {
     
     return (
@@ -284,6 +290,7 @@ render() {
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
             isUserLoggedIn={this.state.isUserLoggedIn}
+            getUseId={this.state.getUseId}
           />
 
           {/* <SignUp
@@ -304,6 +311,9 @@ render() {
             </div>
           </Router>
 
+          <Jumbotron>
+            
+          </Jumbotron>
 
           <SearchBar
             handleInputChange={this.handleInputChange}
