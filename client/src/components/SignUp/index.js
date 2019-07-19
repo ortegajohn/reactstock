@@ -1,5 +1,7 @@
 import React from 'react';
 import API from "../../utils/API";
+import Alert from '../Flash';
+
 // import routes from  "../../utils/API" 
 
 
@@ -20,7 +22,8 @@ class SignUp extends React.Component {
             signupformfirstname,
             signupformlastname,
             signupformusername,
-            signupformpassword
+            signupformpassword,
+            alert_message : ''
         }
     }
 
@@ -59,9 +62,8 @@ class SignUp extends React.Component {
             password: this.state.signupformpassword
         }
         API.sendSignUpForm(formdata).then(res => {
-            this.props.history.push(`/`)
+            this.props.history.push(`/`); 
           })
-
     };
 
     render() {
@@ -101,7 +103,7 @@ class SignUp extends React.Component {
                                         <button onClick={this.signUpFormSubmit} className="btn btn-success" id="btn_submit_signup">
                                             Submit
                                         </button>
-                                    
+                                        
                                     {/* <a href="/" className="btn btn-success" onClick={this.signUpFormSubmit}>
                                     Submit Link
                                     </a> */}

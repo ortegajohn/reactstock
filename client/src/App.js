@@ -17,6 +17,7 @@ import API from "./utils/API";
 // import MiniChart from "./components/MiniChart";
 import axios from "axios";
 import Jumbotron from "./components/Jumbotron";
+import SuccessAlert from "./components/SignUp/SuccessAlert"
 
 
 /* ========================================================================
@@ -125,6 +126,7 @@ class App extends Component {
     }else{
       this.setState({displaysignup: false}, () =>{
         console.log("this.state.displaysignup: ",this.state.displaysignup)
+        SuccessAlert();
       })
     }
   }
@@ -133,6 +135,7 @@ class App extends Component {
     if(!this.state.displaysignin){
       this.setState({displaysignin: true}, () =>{
         console.log("this.state.displaysignin: ",this.state.displaysignin)
+        SuccessAlert();
       })
     }else{
       this.setState({displaysignin: false}, () =>{
@@ -313,6 +316,7 @@ render() {
               // exact  component={SignUp} 
               // https://tylermcginnis.com/react-router-pass-props-to-components/
               render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              
               />
               
               <Route exact path="/signin" component={SignIn} />

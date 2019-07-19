@@ -11,7 +11,7 @@ expressRouter.get('/signup', isNotLoggedIn, (req, res) => {
     // res.render('<h1><SUCCESS/h1>')
     console.log("expressRouter.get Object.keys(req): ", Object.keys(req));
     console.log("expressRouter.get req.body: ",req.body)
-    res.send('hello world')
+    //res.send('/')
 });
 
 
@@ -22,13 +22,14 @@ expressRouter.post('/signup', isNotLoggedIn, passport.authenticate('local.signup
 {
     successRedirect: '/',
     failureRedirect: '/',
-    failureFlash: true
+    failureFlash: true,
+    message: ''
 }
 ));
 
 expressRouter.get('/signin', isNotLoggedIn, (req, res) => {
     // res.render('auth/signin');
-    res.send('hello world')
+    res.send('/signin')
 });
 
 expressRouter.post('/signin', isNotLoggedIn, passport.authenticate('local.signin', {

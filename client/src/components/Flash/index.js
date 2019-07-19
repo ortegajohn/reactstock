@@ -1,34 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import './index.css';
-import Bus from '../../utils/Bus';
+class Alert extends React.Component {
 
-export const Flash = () => {
-    let [visibility, setVisibility] = useState(false);
-    let [message, setMessage] = useState('');
-    let[type, setType] = useState('');
-
-    useEffect(() => {
-        Bus.addListener('flash', ({message, type}) => {
-            setVisibility(true);
-            setMessage(message);
-            setType(type);
-            setTimeout(() => {
-                setVisibility(false);
-            }, 4000);
-        });
-    }, []);
-
-    useEffect(() => {
-        if(document.querySelector('.close') !== null){
-            document.querySelector('.close').addEventListener('click', () => setVisibility(false));
-        }
-    })
+    componentDidMount() {
+      this.timer = setTimeout(
+        this.props.onClose,
+        this.props.timeout
+      );
+    }
     
-    return(
-        visibility && <div className={`alert alert-${type}`}>
-            <span className="close"><strong>X</strong></span>
-            <p>{message}</p>
+    componentWillUnmount() {
+      clearTimeout(this.timer);
+    }
+    
+    alertClass (type) {
+      let classes = {
+        error: 'alert-danger',
+        alert: 'alert-warning',
+        notice: 'alert-info',
+        success: 'alert-success'
+      };
+      return classes[type] || classes.success;
+    }
+    
+    render() {
+      const message = this.props.message;
+      const alertClassName = `alert ${ this.alertClass(message.type) } fade in`;
+   
+      return(
+        <div className={ alertClassName }>
+          <button className='close'
+            onClick={ this.props.onClose }>
+            &times;
+          </button>
+          { message.text }
         </div>
-    )
-}
+      );
+    }
+  }
+  
+  export default Alert;
+//   Alert.propTypes = {
+//     onClose: React.PropTypes.func,
+//     timeout: React.PropTypes.number,
+//     message: React.PropTypes.object.isRequired
+//   };
+  
+//   Alert.defaultProps = {
+//     timeout: 3000
+//   };

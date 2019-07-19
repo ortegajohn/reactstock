@@ -21,9 +21,10 @@ const { isNotLoggedIn } = require('../../config/helper_auth');
 router
 .post("/", isNotLoggedIn, passport.authenticate('local.signup', {
   
-  successRedirect: '/',
+    successRedirect: '/',
     failureRedirect: '/signup',
-    failureFlash: true
+    failureFlash: true,
+    message: ''
   
   //           })
   //           .catch(err => console.log(err));
@@ -32,7 +33,10 @@ router
   //     }
   //   });
   // } 
-}));
+}),function (req, res){
+  req.flash("message", {"fail":"error"});
+  res.locals.messages = req.flash();
+});
 
 //   {
 //     successRedirect: '/',
