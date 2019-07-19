@@ -6,5 +6,7 @@
 }
 
 #delBtn {
-    position: absolute;
+    position: relative;
+    left: 20%;
+    transform: translate(93%, -121%);
 }
