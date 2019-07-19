@@ -14,7 +14,6 @@ import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
-// import MiniChart from "./components/MiniChart";
 import axios from "axios";
 import Jumbotron from "./components/Jumbotron";
 
@@ -60,7 +59,7 @@ class App extends Component {
     signupformpassword,
     displaysignup: displaysignup,
     displaysignin: displaysignin,
-    isUserLoggedIn:isUserLoggedIn
+    isUserLoggedIn: isUserLoggedIn
   };
 
   /* ========================================================================
@@ -68,8 +67,8 @@ class App extends Component {
      ======================================================================== */
 
   // GET DATA FROM DB AND DISPALY CARDS ON PAGE LOAD
-  componentDidMount () {
-   this.getdbstockdata();
+  componentDidMount() {
+    this.getdbstockdata();
   }
 
   // START MODAL CODE
@@ -121,35 +120,35 @@ class App extends Component {
     console.log("event.target.value: ", event.target.value)
     console.log("event.target.name: ", event.target.name)
     this.setState({ [event.target.name]: event.target.value }, () => {
-    console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
-    console.log("this.state.signupformlastname: ", this.state.signupformlastname)
-    console.log("this.state.signupformusername: ", this.state.signupformusername)
-    console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+      console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
+      console.log("this.state.signupformlastname: ", this.state.signupformlastname)
+      console.log("this.state.signupformusername: ", this.state.signupformusername)
+      console.log("this.state.signupformpassword: ", this.state.signupformpassword)
     });
   }
 
   clicksignup = () => {
 
-    if(!this.state.displaysignup){
-      this.setState({displaysignup: true}, () =>{
-        console.log("this.state.displaysignup: ",this.state.displaysignup)
+    if (!this.state.displaysignup) {
+      this.setState({ displaysignup: true }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
       })
-    }else{
-      this.setState({displaysignup: false}, () =>{
-        console.log("this.state.displaysignup: ",this.state.displaysignup)
+    } else {
+      this.setState({ displaysignup: false }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
       })
     }
   }
 
   clicksignIN = () => {
-    if(!this.state.displaysignin){
-      this.setState({displaysignin: true}, () =>{
-        console.log("this.state.displaysignin: ",this.state.displaysignin)
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
-    }else{
-      this.setState({displaysignin: false}, () =>{
+    } else {
+      this.setState({ displaysignin: false }, () => {
         this.getUserId();
-        console.log("this.state.displaysignin: ",this.state.displaysignin)
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
   }
@@ -225,21 +224,40 @@ class App extends Component {
         }
 
         API.getUseId().then((res) => {
-          console.log(" getUseId res.data.userid: ", res.data.userid)
+          console.log(" getUseId res.data: ", res.data)
+          // this.setState(res.data);
           // console.log(" getUseId res: ", Object.keys(res))
           test.user_id = res.data.userid
-          console.log("test.user_id = res.data.userid", test.user_id)
+          
           API.savestock(test).then((res) => {
             console.log("res: ", res)
           });
         })
-        
+
 
       })
       .catch(err => console.log(err));
   };
 
-  
+  logout = event => {
+    event.preventDefault();
+    API.logout().then((res) => {
+      console.log(" logout res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+
+  getUserId = event => {
+    event.preventDefault();
+    console.log("Start getUserId")
+    API.getUseId().then((res) => {
+      console.log(" getUseId res.data: ", res.data)
+      // this.setState(res.data);
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+
+  }
+
   // GET DATA FROM THE DB
   getdbstockdata = event => {
     API.getstocks().then((res) => {
@@ -265,6 +283,19 @@ class App extends Component {
   }
   
 
+  clicksignIN = () => {
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    } else {
+      this.setState({ displaysignin: false }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    }
+  }
+
+
   updatedbstockdata = event => {
     event.preventDefault();
     console.log("prevent deafult")
@@ -279,23 +310,23 @@ class App extends Component {
       updateTickers.forEach(element => {
         console.log("This is element: ", element)
         API.search(element)
-        .then((res) => {
-          console.log("res.data: ", res.data.data)
-          var test = {
-            ticker: element,
-            price: res.data.data[0].price,
-            name: res.data.data[0].name,
-            open: res.data.data[0].price_open,
-            percentChange: res.data.data[0].change_pct,
-            dayHigh: res.data.data[0].day_high,
-            dayLow: res.data.data[0].day_low,
-            marketCap: res.data.data[0].market_cap,
-            avgVol: res.data.data[0].volume_avg
-          }
-          console.log("this is test - updateStocks: ", test)
-          API.updateStocks(test);
-          this.getdbstockdata();
-        })
+          .then((res) => {
+            console.log("res.data: ", res.data.data)
+            var test = {
+              ticker: element,
+              price: res.data.data[0].price,
+              name: res.data.data[0].name,
+              open: res.data.data[0].price_open,
+              percentChange: res.data.data[0].change_pct,
+              dayHigh: res.data.data[0].day_high,
+              dayLow: res.data.data[0].day_low,
+              marketCap: res.data.data[0].market_cap,
+              avgVol: res.data.data[0].volume_avg
+            }
+            console.log("this is test: ", test)
+            API.updateStocks(test);
+            this.getdbstockdata();
+          })
       })
     })
   }
@@ -308,18 +339,16 @@ class App extends Component {
     this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
     })
-    
-    this.getdbstockdata()
-    
+
     event.value = "";
   };
-  
-/* ============================================================================== */ 
-/*                      RENDER                                                    */
-/* ============================================================================== */  
-  
-render() {
-    
+
+  /* ============================================================================== */
+  /*                      RENDER                                                    */
+  /* ============================================================================== */
+
+  render() {
+
     return (
 
       <Wrapper >
@@ -336,21 +365,22 @@ render() {
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
           /> */}
-          
+
           <Router>
             <div>
-              <Route 
-              path="/signup"
-              // exact  component={SignUp} 
-              // https://tylermcginnis.com/react-router-pass-props-to-components/
-              render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              <Route
+                path="/signup"
+                // exact  component={SignUp} 
+                // https://tylermcginnis.com/react-router-pass-props-to-components/
+                render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
               />
-              
+
               <Route exact path="/signin" component={SignIn} />
             </div>
           </Router>
 
           <Jumbotron/>
+
 
           <SearchBar
             handleInputChange={this.handleInputChange}
@@ -367,7 +397,7 @@ render() {
             <div className='col-12'>
               <div className='card-deck'>
 
-                {this.state.dbstocks.map((data,idx) => (
+                {this.state.dbstocks.map((data, idx) => (
                   <StockCardHolder
                     stocksInfo_keys={this.state.stocksInfo_keys}
                     data={data}
@@ -380,22 +410,21 @@ render() {
 
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
-                      <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}  |  Name: {this.state.dbstocks[this.state.clickedIndex].name}</span>
-                      <br/>
-                      <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}   |   Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
-                      <br/>
-                      <span>Open: {this.state.dbstocks[this.state.clickedIndex].open}   |   Day Low: {this.state.dbstocks[this.state.clickedIndex].dayLow}</span>
-                      <br/>
-                      <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
-                      <br/>
-                      <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600}/>
+                    <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}  |  Name: {this.state.dbstocks[this.state.clickedIndex].name}</span>
+                    <br />
+                    <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}   |   Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                    <br />
+                    <span>Open: {this.state.dbstocks[this.state.clickedIndex].open}   |   Day Low: {this.state.dbstocks[this.state.clickedIndex].dayLow}</span>
+                    <br />
+                    <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
+                    <br />
+                    <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600} />
                   </Modal>
                 ) : null}
               </div>
             </div>
           </div>
         </div>
-        {/* <MiniChart></MiniChart> */}
       </Wrapper>
     );
   }

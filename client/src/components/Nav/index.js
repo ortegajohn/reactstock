@@ -23,9 +23,9 @@ function Nav(props) {
 
 
 
-    return (<nav className="navbar navbar-expand-lg navbar-light bg-light">
+    return (<nav className="navbar navbar-expand-lg navbar-custom">
         <div className="container">
-            <a className="navbar-brand" href="/">iStock Login</a>
+            <a className="navbar-brand navbar-nav" href="/">iStock Login</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
                 aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
