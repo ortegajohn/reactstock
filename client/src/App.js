@@ -246,7 +246,6 @@ class App extends Component {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
       console.log("This is dbstocks - getdbstockdata:", dbstocks)
-
     });
   }
   //  handleShowMessageClick = (idx) => this.setState({ showModal: true, clickedIndex: idx })
