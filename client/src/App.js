@@ -77,6 +77,18 @@ class App extends Component {
   handleCloseModal = () => this.setState({ showModal: false })
   // END MODAL CODE
 
+  // START HOVER CODE
+  // Hover Modal Show and Close functions:
+// handleMouseHover() {
+//     this.setState({toggleHoverState});
+//   }
+  
+//   toggleHoverState(isHovering) {
+//     return {
+//       isHovering: !this.isHovering,
+//     };
+//   }
+
   // TRACKS WHAT GOES INTO THE SEARCH BAR
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
@@ -139,8 +151,50 @@ class App extends Component {
         console.log("this.state.displaysignin: ",this.state.displaysignin)
       })
     }
-
   }
+  displaysignup_function = () => {
+
+    if (!this.state.displaysignup) {
+      this.setState({ displaysignup: true }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    } else {
+      this.setState({ displaysignup: false }, () => {
+        console.log("this.state.displaysignup: ", this.state.displaysignup)
+      })
+    }
+  }
+
+  clicksignIN = () => {
+    if (!this.state.displaysignin) {
+      this.setState({ displaysignin: true }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    } else {
+      this.setState({ displaysignin: false }, () => {
+        console.log("this.state.displaysignin: ", this.state.displaysignin)
+      })
+    }
+  }  
+
+  logout =  event => {
+    event.preventDefault();
+    API.logout().then((res) => {
+      console.log(" logout res.data: ", res.data)
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+
+  getUserId = event => {
+    event.preventDefault();
+    console.log("Start getUserId")
+    API.getUseId().then((res) => {
+      console.log(" getUseId res.data: ", res.data)
+      this.setState(res.data);
+      // console.log(" getUseId res: ", Object.keys(res))
+    })
+  }
+
   // ========================================================================
   // END SIGN UP/IN CODE
 
@@ -177,58 +231,33 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  logout =  event => {
-    event.preventDefault();
-    API.logout().then((res) => {
-      console.log(" logout res.data: ", res.data)
-      // console.log(" getUseId res: ", Object.keys(res))
-    })
-  }
-
-  getUserId = event => {
-    event.preventDefault();
-    console.log("Start getUserId")
-    API.getUseId().then((res) => {
-      console.log(" getUseId res.data: ", res.data)
-      this.setState(res.data);
-      // console.log(" getUseId res: ", Object.keys(res))
-    })
-  }
+  
   // GET DATA FROM THE DB
   getdbstockdata = event => {
     API.getstocks().then((res) => {
       console.log("res.data: ", res.data)
       this.setState({ dbstocks: res.data })
-      console.log("This is dbstocks:", dbstocks)
+      console.log("This is dbstocks - getdbstockdata:", dbstocks)
 
     });
   }
-  displaysignup_function = () => {
+  //  handleShowMessageClick = (idx) => this.setState({ showModal: true, clickedIndex: idx })
 
-    if (!this.state.displaysignup) {
-      this.setState({ displaysignup: true }, () => {
-        console.log("this.state.displaysignup: ", this.state.displaysignup)
-      })
-    } else {
-      this.setState({ displaysignup: false }, () => {
-        console.log("this.state.displaysignup: ", this.state.displaysignup)
-      })
-    }
+  // DELETE A STOCK FROM DB AND PAGE
+  deleteDBstockData = idx => {
+    let delTicker = idx;
+    API.getstocks().then((idx) => {
+      console.log("delTicker: ", idx.data[delTicker].ticker);
+      delTicker = {
+        ticker: idx.data[delTicker].ticker
+      };
+      console.log("this is del ticker from deleteDBstockData: ", delTicker)
+      API.deleteStocks(delTicker);
+      this.getdbstockdata();
+    })
   }
+  
 
-  clicksignIN = () => {
-    if (!this.state.displaysignin) {
-      this.setState({ displaysignin: true }, () => {
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    } else {
-      this.setState({ displaysignin: false }, () => {
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    }
-  }  
-
-    
   updatedbstockdata = event => {
     event.preventDefault();
     console.log("prevent deafult")
@@ -256,7 +285,7 @@ class App extends Component {
             marketCap: res.data.data[0].market_cap,
             avgVol: res.data.data[0].volume_avg
           }
-          console.log("this is test: ", test)
+          console.log("this is test - updateStocks: ", test)
           API.updateStocks(test);
           this.getdbstockdata();
         })
@@ -312,9 +341,7 @@ render() {
             </div>
           </Router>
 
-          <Jumbotron>
-            
-          </Jumbotron>
+          <Jumbotron/>
 
           <SearchBar
             handleInputChange={this.handleInputChange}
@@ -325,7 +352,7 @@ render() {
             logout={this.logout}
           />
         </div>
-
+    
         <div className='container'>
           <div className='row'>
             <div className='col-12'>
@@ -338,7 +365,8 @@ render() {
                     key={data.id}
                     getdbstockdata={() => this.getdbstockdata()}
                     handleShowMessageClick={() => this.handleShowMessageClick(idx)}
-                  />
+                    deleteDBstockData={() => this.deleteDBstockData(idx)}
+                    />
                 ))}
 
                 {this.state.showModal ? (

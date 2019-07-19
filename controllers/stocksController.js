@@ -65,7 +65,18 @@ module.exports = {
         console.log('this is dbstocks from updateStocks: ', Object.keys(dbstocks))
       })
   },
-  
+  // Delete an example by id
+  deleteStocks: function(req, res) {
+    db.Stocks.destroy(
+      { where: { ticker: req.body.ticker } })
+      .then(function(
+      dbStocks
+    ) {
+      console.log("dbstocks - deletestocks: ", dbStocks)
+      res.json(dbStocks);
+    }).then 
+  },
+
   getstocks: function(req, res) {
     // console.log("Object.keys(req): ", Object.keys(req));
     // console.log("getstocks.req.body: ", req.body);
