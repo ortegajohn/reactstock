@@ -21,6 +21,7 @@ class StockCardHolder extends Component {
             data={this.props.data}
             getdbstocksdata={this.props.getdbstockdata} 
             handleShowMessageClick={this.props.handleShowMessageClick}
+            deleteDBstockData={this.props.deleteDBstockData}
             >
       </StockCards>
 

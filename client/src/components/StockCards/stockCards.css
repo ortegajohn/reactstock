@@ -4,3 +4,9 @@
     min-width: 30rem;
     max-width: 15rem;
 }
+
+#delBtn {
+    position: relative;
+    left: 20%;
+    transform: translate(93%, -121%);
+}
