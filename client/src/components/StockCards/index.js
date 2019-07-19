@@ -28,7 +28,7 @@ function StockCards(props) {
                 Day High: {props.data.dayHigh}
                 <br/>
         </div>
-        <button type="button" className="btn btn-warning" ticker={props.data.ticker} onClick={props.deleteDBstockData}>Remove</button>
+        <button id={"delBtn"} type="button" className="btn btn-warning" onClick={props.deleteDBstockData}>Remove</button>
       </div>
 
   );

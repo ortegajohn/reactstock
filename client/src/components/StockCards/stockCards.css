@@ -4,3 +4,7 @@
     min-width: 30rem;
     max-width: 15rem;
 }
+
+#delBtn {
+    position: absolute;
+}
