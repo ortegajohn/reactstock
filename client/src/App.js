@@ -36,9 +36,10 @@ let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false
 let displaysignin = false
-let isUserLoggedIn = false
+let isUserLoggedIn = false;
 let dom_signup = ""
 let dom_signin = ""
+
 
 
 class App extends Component {
@@ -60,7 +61,8 @@ class App extends Component {
     signupformpassword,
     displaysignup: displaysignup,
     displaysignin: displaysignin,
-    isUserLoggedIn:isUserLoggedIn
+    isUserLoggedIn:isUserLoggedIn,
+    // isSignedIn: isSignedIn
   };
 
   /* ========================================================================
@@ -284,6 +286,23 @@ class App extends Component {
     
     event.value = "";
   };
+
+  logOut = event => {
+    event.preventDefault()
+    if (!isUserLoggedIn) {
+      this.setState({isUserLoggedIn: true}
+        , () => {
+        console.log("this.state.isUserLoggedIn: ", this.state.isUserLoggedIn)
+      })
+    }
+    // else  {
+    //   this.setState({isUserLoggedIn: false}, () => {
+    //     console.log("this.state.isUserLoggedInZZZ: ", this.state.isUserLoggedIn)
+    //   })
+    // }
+    
+  }
+ 
   
 /* ============================================================================== */ 
 /*                      RENDER                                                    */
@@ -294,22 +313,28 @@ render() {
     return (
 
       <Wrapper >
-
+        <Router>
+        <div>
         <div>
           <Nav
+          
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
             isUserLoggedIn={this.state.isUserLoggedIn}
             getUseId={this.state.getUseId}
+            // logOut= 
+            userLogin = {this.logOut}
           />
 
-
+          <Route
+            path="/signedIn"
+            ></Route>
           {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
           /> */}
-          <Router>
-            <div>
+          
+           
               <Route 
               path="/signup"
               // exact  component={SignUp} 
@@ -318,8 +343,8 @@ render() {
               />
               
               <Route exact path="/signin" component={SignIn} />
-            </div>
-          </Router>
+            
+          
 
           <Jumbotron>
             
@@ -331,7 +356,7 @@ render() {
             getdbstockdata={this.getdbstockdata}
             refresh={this.updatedbstockdata}
             getUserId={this.getUserId}
-            logout={this.logout}
+            logOut={this.logOut}
           />
         </div>
 
@@ -365,6 +390,8 @@ render() {
           </div>
         </div>
         {/* <MiniChart></MiniChart> */}
+        </div>
+        </Router>
       </Wrapper>
     );
   }
