@@ -97,8 +97,9 @@ class App extends Component {
       username: this.state.signupformusername,
       password: this.state.signupformpassword
     }
-    API.sendSignUpForm(formdata)
 
+    API.sendSignUpForm(formdata)
+    this.logOut()
   };
 
   signINFormSubmit = event => {
@@ -192,7 +193,8 @@ class App extends Component {
     API.logout().then((res) => {
       console.log(" logout res.data: ", res.data)
       // console.log(" getUseId res: ", Object.keys(res))
-    })
+    }
+    )
   }
 
   getUserId = event => {
@@ -200,7 +202,7 @@ class App extends Component {
     console.log("Start getUserId")
     API.getUseId().then((res) => {
       console.log(" getUseId res.data: ", res.data)
-      this.setState(res.data);
+      // this.setState(res.data);
       // console.log(" getUseId res: ", Object.keys(res))
     })
   }
@@ -288,12 +290,14 @@ class App extends Component {
   };
 
   logOut = event => {
-    event.preventDefault()
+    // event.preventDefault()
     if (!isUserLoggedIn) {
-      this.setState({isUserLoggedIn: true}
-        , () => {
+      this.setState({isUserLoggedIn: true},
+        
+         () => {
         console.log("this.state.isUserLoggedIn: ", this.state.isUserLoggedIn)
       })
+      API.logout()
     }
     // else  {
     //   this.setState({isUserLoggedIn: false}, () => {
@@ -339,7 +343,8 @@ render() {
               path="/signup"
               // exact  component={SignUp} 
               // https://tylermcginnis.com/react-router-pass-props-to-components/
-              render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+              render={(props) => <SignUp {...props} 
+              logOut={this.logOut}/>}
               />
               
               <Route exact path="/signin" component={SignIn} />
