@@ -61,7 +61,7 @@ class App extends Component {
     displaysignup: displaysignup,
     displaysignin: displaysignin,
 
-    isUserLoggedIn:isUserLoggedIn,
+    isUserLoggedIn: isUserLoggedIn,
     // isSignedIn: isSignedIn
 
   };
@@ -83,15 +83,15 @@ class App extends Component {
 
   // START HOVER CODE
   // Hover Modal Show and Close functions:
-// handleMouseHover() {
-//     this.setState({toggleHoverState});
-//   }
-  
-//   toggleHoverState(isHovering) {
-//     return {
-//       isHovering: !this.isHovering,
-//     };
-//   }
+  // handleMouseHover() {
+  //     this.setState({toggleHoverState});
+  //   }
+
+  //   toggleHoverState(isHovering) {
+  //     return {
+  //       isHovering: !this.isHovering,
+  //     };
+  //   }
 
   // TRACKS WHAT GOES INTO THE SEARCH BAR
   handleInputChange = event => {
@@ -112,7 +112,7 @@ class App extends Component {
     }
 
     API.sendSignUpForm(formdata)
-    this.logOut()
+    // this.logOut()
   };
 
   signINFormSubmit = event => {
@@ -180,9 +180,9 @@ class App extends Component {
         console.log("this.state.displaysignin: ", this.state.displaysignin)
       })
     }
-  }  
+  }
 
-  logout =  event => {
+  logout = event => {
     event.preventDefault();
     API.logout().then((res) => {
       console.log(" logout res.data: ", res.data)
@@ -233,7 +233,7 @@ class App extends Component {
           // this.setState(res.data);
           // console.log(" getUseId res: ", Object.keys(res))
           test.user_id = res.data.userid
-          
+
           API.savestock(test).then((res) => {
             console.log("res: ", res)
           });
@@ -244,14 +244,7 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  logout = event => {
-    event.preventDefault();
-    API.logout().then((res) => {
-      console.log(" logout res.data: ", res.data)
-      // console.log(" getUseId res: ", Object.keys(res))
-    }
-    )
-  }
+
 
   getUserId = event => {
     event.preventDefault();
@@ -287,7 +280,7 @@ class App extends Component {
       this.getdbstockdata();
     })
   }
-  
+
 
   clicksignIN = () => {
     if (!this.state.displaysignin) {
@@ -350,122 +343,141 @@ class App extends Component {
   };
 
 
-  logOut = event => {
-    // event.preventDefault()
-    if (!isUserLoggedIn) {
-      this.setState({isUserLoggedIn: true},
-        
-         () => {
-        console.log("this.state.isUserLoggedIn: ", this.state.isUserLoggedIn)
-      })
-      API.logout()
-    }
-    // else  {
-    //   this.setState({isUserLoggedIn: false}, () => {
-    //     console.log("this.state.isUserLoggedInZZZ: ", this.state.isUserLoggedIn)
-    //   })
-    // }
-    
-  }
- 
-  
-/* ============================================================================== */ 
-/*                      RENDER                                                    */
-/* ============================================================================== */  
-  
-render() {
-    
+  // logOut = event => {
+  //   // event.preventDefault()
+  //   if (!isUserLoggedIn) {
+  //     this.setState({ isUserLoggedIn: true },
+
+  //       () => {
+  //         console.log("this.state.isUserLoggedIn: ", this.state.isUserLoggedIn)
+  //       })
+  //     API.logout()
+  //   }
+  //   // else  {
+  //   //   this.setState({isUserLoggedIn: false}, () => {
+  //   //     console.log("this.state.isUserLoggedInZZZ: ", this.state.isUserLoggedIn)
+  //   //   })
+  //   // }
+
+  // }
+
+  // logout = event => {
+  //   event.preventDefault();
+  //   API.logout().then((res) => {
+  //     console.log(" logout res.data: ", res.data)
+  //     // console.log(" getUseId res: ", Object.keys(res))
+  //   }
+  //   )
+  // }
+
+
+  /* ============================================================================== */
+  /*                      RENDER                                                    */
+  /* ============================================================================== */
+
+  render() {
+
 
     return (
 
       <Wrapper >
         <Router>
-        <div>
-        <div>
-          <Nav
-          
-            displaysignup_function={this.displaysignup_function}
-            displaysignup={this.state.displaysignup}
-            isUserLoggedIn={this.state.isUserLoggedIn}
-            getUseId={this.state.getUseId}
-            // logOut= 
-            userLogin = {this.logOut}
-          />
+          <div>
+            <div>
+              <Nav
+
+                displaysignup_function={this.displaysignup_function}
+                displaysignup={this.state.displaysignup}
+                isUserLoggedIn={this.state.isUserLoggedIn}
+                getUseId={this.state.getUseId}
+                // logOut= 
+                userLogin={this.logOut}
+              />
 
 
-          <Route
-            path="/signedIn"
-            ></Route>
+              <Route
+                path="/signedIn"
+              ></Route>
 
-          {/* <SignUp
+              {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
           /> */}
 
-          
-           
-              <Route 
-              path="/signup"
-              // exact  component={SignUp} 
-              // https://tylermcginnis.com/react-router-pass-props-to-components/
-              render={(props) => <SignUp {...props} 
-              logOut={this.logOut}/>}
+
+
+              <Route
+                path="/signup"
+                // exact  component={SignUp} 
+                // https://tylermcginnis.com/react-router-pass-props-to-components/
+                render={(props) => <SignUp {...props}
+                  logOut={this.logOut} />}
 
               />
 
+              {/* <Route
+                path="/signin"
+                // exact  component={SignIn} 
+                // https://tylermcginnis.com/react-router-pass-props-to-components/
+                render={(props) => <SignIn {...props}
+                isUserLoggedIn={this.state.isUserLoggedIn}
+                logOut={this.logOut} />}
+
+              /> */}
+
               <Route exact path="/signin" component={SignIn} />
-            
-          
-
-          <Jumbotron/>
 
 
-          <SearchBar
-            handleInputChange={this.handleInputChange}
-            handleFormSubmit={this.handleFormSubmit}
-            getdbstockdata={this.getdbstockdata}
-            refresh={this.updatedbstockdata}
-            getUserId={this.getUserId}
-            logOut={this.logOut}
-          />
-        </div>
-    
-        <div className='container'>
-          <div className='row'>
-            <div className='col-12'>
-              <div className='card-deck'>
 
-                {this.state.dbstocks.map((data, idx) => (
-                  <StockCardHolder
-                    stocksInfo_keys={this.state.stocksInfo_keys}
-                    data={data}
-                    key={data.id}
-                    getdbstockdata={() => this.getdbstockdata()}
-                    handleShowMessageClick={() => this.handleShowMessageClick(idx)}
-                    deleteDBstockData={() => this.deleteDBstockData(idx)}
-                    />
-                ))}
+              <Jumbotron />
 
-                {this.state.showModal ? (
-                  <Modal onClose={this.handleCloseModal}>
-                    <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}  |  Name: {this.state.dbstocks[this.state.clickedIndex].name}</span>
-                    <br />
-                    <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}   |   Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
-                    <br />
-                    <span>Open: {this.state.dbstocks[this.state.clickedIndex].open}   |   Day Low: {this.state.dbstocks[this.state.clickedIndex].dayLow}</span>
-                    <br />
-                    <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
-                    <br />
-                    <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600} />
-                  </Modal>
-                ) : null}
+
+              <SearchBar
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                getdbstockdata={this.getdbstockdata}
+                refresh={this.updatedbstockdata}
+                getUserId={this.getUserId}
+                logout={this.logout}
+              />
+            </div>
+
+            <div className='container'>
+              <div className='row'>
+                <div className='col-12'>
+                  <div className='card-deck'>
+
+                    {this.state.dbstocks.map((data, idx) => (
+                      <StockCardHolder
+                        stocksInfo_keys={this.state.stocksInfo_keys}
+                        data={data}
+                        key={data.id}
+                        getdbstockdata={() => this.getdbstockdata()}
+                        handleShowMessageClick={() => this.handleShowMessageClick(idx)}
+                        deleteDBstockData={() => this.deleteDBstockData(idx)}
+                      />
+                    ))}
+
+                    {this.state.showModal ? (
+                      <Modal onClose={this.handleCloseModal}>
+                        <span>Ticker: {this.state.dbstocks[this.state.clickedIndex].ticker}  |  Name: {this.state.dbstocks[this.state.clickedIndex].name}</span>
+                        <br />
+                        <span>Stock Price: {this.state.dbstocks[this.state.clickedIndex].price}   |   Change %: {this.state.dbstocks[this.state.clickedIndex].percentChange}</span>
+                        <br />
+                        <span>Open: {this.state.dbstocks[this.state.clickedIndex].open}   |   Day Low: {this.state.dbstocks[this.state.clickedIndex].dayLow}</span>
+                        <br />
+                        <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
+                        <br />
+                        <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600} />
+                      </Modal>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* <MiniChart></MiniChart> */}
-        </div>
+            {/* <MiniChart></MiniChart> */}
+          </div>
         </Router>
 
       </Wrapper>
