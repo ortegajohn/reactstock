@@ -320,6 +320,7 @@ class App extends Component {
     // https://stackoverflow.com/questions/30782948/why-calling-react-setstate-method-doesnt-mutate-the-state-immediately
     this.setState({ search_ticker: this.state.ticker }, () => {
       this.searchTicker(this.state.search_ticker);
+      this.getdbstockdata();
     })
 
     event.value = "";
@@ -328,12 +329,14 @@ class App extends Component {
   changeLoginStatusToTrue = () => {
     this.setState({ isUserLoggedIn: true }, () => {
       console.log("isUserLoggedIn: ", this.state.isUserLoggedIn)
+      this.getdbstockdata();
     })
   }
 
   changeLoginStatusToFalse = () => {
     this.setState({ isUserLoggedIn: false }, () => {
       console.log("isUserLoggedIn: ", this.state.isUserLoggedIn)
+      this.getdbstockdata();
     })
   }
 

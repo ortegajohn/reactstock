@@ -84,7 +84,16 @@ module.exports = {
     console.log("getstocks: function(req, res): ", req.user)
     if(req.user == undefined){
       console.log("if(req.user == undefined){: ", req.user)
-      db.Stocks.findAll({}).then(function (dbStocks,err) {
+      db.Stocks.findAll({
+        where: sequelize.where(
+          sequelize.literal('user_id'),
+          '=',
+          null
+        )
+
+
+
+      }).then(function (dbStocks,err) {
         if(err){
           console.log("err: ", err)
         }

@@ -22,9 +22,9 @@ const SearchBar = props => {
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.refresh}>
                 Refresh
             </button>    
-            {/* <button type="submit" className="submitBtn btn btn-primary" onClick={props.getUserId}>
+            <button type="submit" className="submitBtn btn btn-primary" onClick={props.getUserId}>
                 get user id
-            </button> */}
+            </button>
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.logout}>
                 Logout
             </button>
