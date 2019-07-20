@@ -17,7 +17,7 @@ function Nav(props) {
     } else {
         signup_dom =
             <li className="nav-item">
-                <a href="/logout" className="nav-link">Logout</a>
+                <a href="/" className="nav-link" onClick={props.logout}>Logout</a>
             </li>
     }
 

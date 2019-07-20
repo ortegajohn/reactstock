@@ -12,7 +12,9 @@ class UserSignIn extends Component {
         super()
         this.state = {
             signinformusername,
-            signinformpassword
+            signinformpassword,
+
+
         }
     }
     // const UserSignIn = (props) => {
@@ -24,6 +26,9 @@ class UserSignIn extends Component {
               console.log("this.state.signupformpassword: ", this.state.signinformpassword)
             });
           }
+
+
+
         signINFormSubmit = event => {
             event.preventDefault()
             console.log("signINFormSubmit")
@@ -32,7 +37,18 @@ class UserSignIn extends Component {
                 password: this.state.signinformpassword
               }
               API.sendSignInForm(formdata).then(res => {
+                  console.log("API.sendSignInForm(formdata).then(res.status: ",res.status)
+                  if(res.status == 200){
+                      console.log(" if(res.status == 200: ")
+
+                    //   axios.post("/qqqqqqq", {qqqqq:"qqqqqq"});
+
+                // console.log(this.props.changeLoginStatusToTrue())
+                this.props.changeLoginStatusToTrue()
+                // console.log("ASDFGHJ: ",this.state.testprops)
+                  }
                 this.props.history.push(`/`)
+                // window.location.reload();
               })
               console.log("PLPLPLPLPLPL", this.props.isUserLoggedIn)
         

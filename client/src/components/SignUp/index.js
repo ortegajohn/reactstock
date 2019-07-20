@@ -59,7 +59,17 @@ class SignUp extends React.Component {
             password: this.state.signupformpassword
         }
         API.sendSignUpForm(formdata).then(res => {
+            console.log("API.sendSignUpForm(formdata).then(res.status: ",res.status)
+            if(res.status == 200){
+                console.log(" if(res.status == 200: ")
+
+          this.props.changeLoginStatusToTrue()
+          // console.log("ASDFGHJ: ",this.state.testprops)
+            }
+            
+
             this.props.history.push(`/`)
+            // window.location.reload();
           })
 
     };

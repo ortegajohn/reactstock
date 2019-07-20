@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-// import FriendCard from "./components/FriendCard";
-// import Test from "./components/Test";
 import Wrapper from "./components/Wrapper";
-// import Title from "./components/Title";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import StockCardHolder from "./components/StockCardHolder";
-// import StockTable from "./components/StockTable";
-// import friends from "./friends.json";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
-import axios from "axios";
 import Jumbotron from "./components/Jumbotron";
 
 
@@ -35,11 +29,11 @@ let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false
 let displaysignin = false
-let isUserLoggedIn = false;
+let isUserLoggedIn;
 let dom_signup = ""
 let dom_signin = ""
-
-
+let signinformusername = ""
+let signinformpassword = ""
 
 class App extends Component {
 
@@ -62,6 +56,9 @@ class App extends Component {
     displaysignin: displaysignin,
 
     isUserLoggedIn: isUserLoggedIn,
+    signinformusername,
+    signinformpassword,
+
     // isSignedIn: isSignedIn
 
   };
@@ -93,6 +90,7 @@ class App extends Component {
   //     };
   //   }
 
+
   // TRACKS WHAT GOES INTO THE SEARCH BAR
   handleInputChange = event => {
     this.setState({ ticker: event.target.value });
@@ -101,62 +99,48 @@ class App extends Component {
 
   // START SIGN IN/UP CODE
   // ========================================================================
-  signUpFormSubmit = event => {
-    event.preventDefault()
-    console.log("signUpFormSubmit: ")
-    let formdata = {
-      firstname: this.state.signupformfirstname,
-      lastname: this.state.signupformlastname,
-      username: this.state.signupformusername,
-      password: this.state.signupformpassword
-    }
+  // signUpFormSubmit = event => {
+  //   event.preventDefault()
+  //   console.log("signUpFormSubmit: ")
+  //   let formdata = {
+  //     firstname: this.state.signupformfirstname,
+  //     lastname: this.state.signupformlastname,
+  //     username: this.state.signupformusername,
+  //     password: this.state.signupformpassword
+  //   }
 
-    API.sendSignUpForm(formdata)
-    // this.logOut()
-  };
 
-  signINFormSubmit = event => {
-    event.preventDefault()
-    console.log("signINFormSubmit")
 
-  }
 
-  handleFormInputChange = event => {
-    console.log("event.target.value: ", event.target.value)
-    console.log("event.target.name: ", event.target.name)
-    this.setState({ [event.target.name]: event.target.value }, () => {
-      console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
-      console.log("this.state.signupformlastname: ", this.state.signupformlastname)
-      console.log("this.state.signupformusername: ", this.state.signupformusername)
-      console.log("this.state.signupformpassword: ", this.state.signupformpassword)
-    });
-  }
 
-  clicksignup = () => {
 
-    if (!this.state.displaysignup) {
-      this.setState({ displaysignup: true }, () => {
-        console.log("this.state.displaysignup: ", this.state.displaysignup)
-      })
-    } else {
-      this.setState({ displaysignup: false }, () => {
-        console.log("this.state.displaysignup: ", this.state.displaysignup)
-      })
-    }
-  }
 
-  clicksignIN = () => {
-    if (!this.state.displaysignin) {
-      this.setState({ displaysignin: true }, () => {
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    } else {
-      this.setState({ displaysignin: false }, () => {
-        this.getUserId();
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    }
-  }
+  // handleFormInputChange = event => {
+  //   console.log("event.target.value: ", event.target.value)
+  //   console.log("event.target.name: ", event.target.name)
+  //   this.setState({ [event.target.name]: event.target.value }, () => {
+  //     console.log("this.state.signupformfirstname: ", this.state.signupformfirstname)
+  //     console.log("this.state.signupformlastname: ", this.state.signupformlastname)
+  //     console.log("this.state.signupformusername: ", this.state.signupformusername)
+  //     console.log("this.state.signupformpassword: ", this.state.signupformpassword)
+  //   });
+  // }
+
+  // clicksignup = () => {
+
+  //   if (!this.state.displaysignup) {
+  //     this.setState({ displaysignup: true }, () => {
+  //       console.log("this.state.displaysignup: ", this.state.displaysignup)
+  //     })
+  //   } else {
+  //     this.setState({ displaysignup: false }, () => {
+  //       console.log("this.state.displaysignup: ", this.state.displaysignup)
+  //     })
+  //   }
+  // }
+
+
+  
   displaysignup_function = () => {
 
     if (!this.state.displaysignup) {
@@ -187,18 +171,22 @@ class App extends Component {
     API.logout().then((res) => {
       console.log(" logout res.data: ", res.data)
       // console.log(" getUseId res: ", Object.keys(res))
+      this.changeLoginStatusToFalse()
+      this.getdbstockdata();
     })
   }
 
-  getUserId = event => {
-    event.preventDefault();
-    console.log("Start getUserId")
-    API.getUseId().then((res) => {
-      console.log(" getUseId res.data: ", res.data)
-      this.setState(res.data);
-      // console.log(" getUseId res: ", Object.keys(res))
-    })
-  }
+  // getUserId = event => {
+  //   event.preventDefault();
+  //   console.log("Start getUserId")
+  //   API.getUseId().then((res) => {
+  //     this.changeLoginStatusToTrue()
+  //     console.log(" getUseId res.data: ", res.data)
+  //     this.setState(res.data);
+  //     // console.log(" getUseId res: ", Object.keys(res))
+      
+  //   })
+  // }
 
   // ========================================================================
   // END SIGN UP/IN CODE
@@ -236,6 +224,9 @@ class App extends Component {
 
           API.savestock(test).then((res) => {
             console.log("res: ", res)
+            this.getdbstockdata();
+            // window.location.reload();
+
           });
         })
 
@@ -250,6 +241,7 @@ class App extends Component {
     event.preventDefault();
     console.log("Start getUserId")
     API.getUseId().then((res) => {
+      // this.changeLoginStatusToTrue()
       console.log(" getUseId res.data: ", res.data)
       // this.setState(res.data);
       // console.log(" getUseId res: ", Object.keys(res))
@@ -282,17 +274,8 @@ class App extends Component {
   }
 
 
-  clicksignIN = () => {
-    if (!this.state.displaysignin) {
-      this.setState({ displaysignin: true }, () => {
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    } else {
-      this.setState({ displaysignin: false }, () => {
-        console.log("this.state.displaysignin: ", this.state.displaysignin)
-      })
-    }
-  }
+
+  
 
 
   updatedbstockdata = event => {
@@ -341,6 +324,18 @@ class App extends Component {
 
     event.value = "";
   };
+
+  changeLoginStatusToTrue = () => {
+    this.setState({ isUserLoggedIn: true }, () => {
+      console.log("isUserLoggedIn: ", this.state.isUserLoggedIn)
+    })
+  }
+
+  changeLoginStatusToFalse = () => {
+    this.setState({ isUserLoggedIn: false }, () => {
+      console.log("isUserLoggedIn: ", this.state.isUserLoggedIn)
+    })
+  }
 
 
   // logOut = event => {
@@ -391,13 +386,14 @@ class App extends Component {
                 isUserLoggedIn={this.state.isUserLoggedIn}
                 getUseId={this.state.getUseId}
                 // logOut= 
-                userLogin={this.logOut}
+                logout={this.logout}
+                changeLoginStatusToFalse={this.changeLoginStatusToFalse}
               />
 
 
-              <Route
+              {/* <Route
                 path="/signedIn"
-              ></Route>
+              ></Route> */}
 
               {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
@@ -411,21 +407,29 @@ class App extends Component {
                 // exact  component={SignUp} 
                 // https://tylermcginnis.com/react-router-pass-props-to-components/
                 render={(props) => <SignUp {...props}
-                  logOut={this.logOut} />}
+                  logOut={this.logOut} 
+                  changeLoginStatusToTrue={this.changeLoginStatusToTrue}
+                  />}
+
 
               />
 
-              {/* <Route
+              <Route
                 path="/signin"
                 // exact  component={SignIn} 
                 // https://tylermcginnis.com/react-router-pass-props-to-components/
                 render={(props) => <SignIn {...props}
-                isUserLoggedIn={this.state.isUserLoggedIn}
-                logOut={this.logOut} />}
+                  isUserLoggedIn={this.state.isUserLoggedIn}
+                  changeLoginStatusToTrue={this.changeLoginStatusToTrue}
+                  
+                  />}
+             
 
-              /> */}
 
-              <Route exact path="/signin" component={SignIn} />
+
+              />
+
+              {/* <Route exact path="/signin" component={SignIn} /> */}
 
 
 
