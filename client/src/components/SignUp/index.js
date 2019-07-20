@@ -60,7 +60,7 @@ class SignUp extends React.Component {
         }
         API.sendSignUpForm(formdata).then(res => {
             this.props.history.push(`/`)
-          }).then(this.props.logOut)
+          })
 
     };
 
