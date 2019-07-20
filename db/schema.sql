@@ -21,6 +21,7 @@ CREATE TABLE `stocks` (
 );
 
 USE `istock_db`;
+DROP table if exists istock_users
 CREATE TABLE IF NOT EXISTS iStock_users(
     id              INT(5) AUTO_INCREMENT NOT NULL,
     first_name      VARCHAR(100) NOT NULL,
@@ -28,4 +29,6 @@ CREATE TABLE IF NOT EXISTS iStock_users(
     username        VARCHAR(100) NOT NULL,
     password        VARCHAR(255) NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY(id)
+	createdAt datetime,
+    updatedAt datetime
 )ENGINE='InnoDB' CHARACTER SET utf8 COLLATE utf8_unicode_ci;

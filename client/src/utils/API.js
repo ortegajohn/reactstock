@@ -19,8 +19,16 @@ export default {
   },
 
   updateStocks: function(stockData) {
-    console.log("stockData from API: ", stockData)
+    console.log("stockData from API - updateStocks: ", stockData)
     return axios.put("/api/updateStocks", stockData)
+  },
+
+  deleteStocks: function(delTicker) {
+    console.log("delTicker from Delete API: ", delTicker)
+    return axios.post("/api/deleteStocks", delTicker).then( function(req, res) {
+        console.log("reqZ: ", req)
+        console.log("resZ: ", res)
+    })
   },
 
   sendSignUpForm: function(SignUpFormData){
