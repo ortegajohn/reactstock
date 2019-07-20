@@ -35,9 +35,10 @@ let signupformpassword = ""
 let guessmessage = 'Click an image to begin!'
 let displaysignup = false
 let displaysignin = false
-let isUserLoggedIn = false
+let isUserLoggedIn = false;
 let dom_signup = ""
 let dom_signin = ""
+
 
 
 class App extends Component {
@@ -59,7 +60,10 @@ class App extends Component {
     signupformpassword,
     displaysignup: displaysignup,
     displaysignin: displaysignin,
-    isUserLoggedIn: isUserLoggedIn
+
+    isUserLoggedIn:isUserLoggedIn,
+    // isSignedIn: isSignedIn
+
   };
 
   /* ========================================================================
@@ -106,8 +110,9 @@ class App extends Component {
       username: this.state.signupformusername,
       password: this.state.signupformpassword
     }
-    API.sendSignUpForm(formdata)
 
+    API.sendSignUpForm(formdata)
+    this.logOut()
   };
 
   signINFormSubmit = event => {
@@ -244,7 +249,8 @@ class App extends Component {
     API.logout().then((res) => {
       console.log(" logout res.data: ", res.data)
       // console.log(" getUseId res: ", Object.keys(res))
-    })
+    }
+    )
   }
 
   getUserId = event => {
@@ -343,41 +349,73 @@ class App extends Component {
     event.value = "";
   };
 
-  /* ============================================================================== */
-  /*                      RENDER                                                    */
-  /* ============================================================================== */
 
-  render() {
+  logOut = event => {
+    // event.preventDefault()
+    if (!isUserLoggedIn) {
+      this.setState({isUserLoggedIn: true},
+        
+         () => {
+        console.log("this.state.isUserLoggedIn: ", this.state.isUserLoggedIn)
+      })
+      API.logout()
+    }
+    // else  {
+    //   this.setState({isUserLoggedIn: false}, () => {
+    //     console.log("this.state.isUserLoggedInZZZ: ", this.state.isUserLoggedIn)
+    //   })
+    // }
+    
+  }
+ 
+  
+/* ============================================================================== */ 
+/*                      RENDER                                                    */
+/* ============================================================================== */  
+  
+render() {
+    
 
     return (
 
       <Wrapper >
-
+        <Router>
+        <div>
         <div>
           <Nav
+          
             displaysignup_function={this.displaysignup_function}
             displaysignup={this.state.displaysignup}
             isUserLoggedIn={this.state.isUserLoggedIn}
             getUseId={this.state.getUseId}
+            // logOut= 
+            userLogin = {this.logOut}
           />
+
+
+          <Route
+            path="/signedIn"
+            ></Route>
 
           {/* <SignUp
             handleFormInputChange={this.handleFormInputChange}
             signUpFormSubmit={this.signUpFormSubmit}
           /> */}
 
-          <Router>
-            <div>
-              <Route
-                path="/signup"
-                // exact  component={SignUp} 
-                // https://tylermcginnis.com/react-router-pass-props-to-components/
-                render={(props) => <SignUp {...props} isUserLoggedIn={this.state.isUserLoggedIn} />}
+          
+           
+              <Route 
+              path="/signup"
+              // exact  component={SignUp} 
+              // https://tylermcginnis.com/react-router-pass-props-to-components/
+              render={(props) => <SignUp {...props} 
+              logOut={this.logOut}/>}
+
               />
 
               <Route exact path="/signin" component={SignIn} />
-            </div>
-          </Router>
+            
+          
 
           <Jumbotron/>
 
@@ -388,7 +426,7 @@ class App extends Component {
             getdbstockdata={this.getdbstockdata}
             refresh={this.updatedbstockdata}
             getUserId={this.getUserId}
-            logout={this.logout}
+            logOut={this.logOut}
           />
         </div>
     
@@ -425,6 +463,11 @@ class App extends Component {
             </div>
           </div>
         </div>
+
+        {/* <MiniChart></MiniChart> */}
+        </div>
+        </Router>
+
       </Wrapper>
     );
   }
