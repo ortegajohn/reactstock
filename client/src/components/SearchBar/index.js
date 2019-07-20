@@ -28,9 +28,7 @@ const SearchBar = props => {
             <button type="submit" className="submitBtn btn btn-primary" onClick={props.logout}>
                 Logout
             </button>
-            <button type="submit" className="submitBtn btn btn-primary" onClick={props.logOut}>
-                test toggle
-            </button>
+
             
         </form>
         </div>
