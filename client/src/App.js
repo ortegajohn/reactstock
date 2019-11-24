@@ -10,7 +10,9 @@ import Modal from "./components/Modal/Modal"
 import TradingViewWidget from 'react-tradingview-widget';
 import API from "./utils/API";
 import Jumbotron from "./components/Jumbotron";
-
+import TickerTape from "./components/TickerTape";
+import SingleQuote from "./components/SingleQuote";
+import Iframe from 'react-iframe'
 
 /* ========================================================================
                               GLOBAL VARIABLES
@@ -475,7 +477,7 @@ class App extends Component {
                         <br />
                         <span>Day High: {this.state.dbstocks[this.state.clickedIndex].dayHigh}   |   Avg. Vol. {this.state.dbstocks[this.state.clickedIndex].avgVol}</span>
                         <br />
-                        <TradingViewWidget symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600} />
+                        <TradingViewWidget type={"single-quote"}symbol={`${this.state.dbstocks[this.state.clickedIndex].ticker}`} height={500} width={600} />
                       </Modal>
                     ) : null}
                   </div>
@@ -486,6 +488,23 @@ class App extends Component {
             {/* <MiniChart></MiniChart> */}
           </div>
         </Router>
+
+      <TickerTape></TickerTape>
+      <SingleQuote></SingleQuote>
+
+<Iframe url="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js"
+        width="450px"
+        height="450px"
+        symbol="AMEX:GDX"
+        colorTheme="light"
+        isTransparent='false'
+        locale="en"
+
+        // id="myId"
+        // className="myClassname"
+        // display="initial"
+        // position="relative"
+        />
 
       </Wrapper>
     );
